@@ -14,7 +14,7 @@ from timeFormatCheck import timeFormatCheck
 from dateFormatCheck import dateFormatCheck
 from makeDateTime import makeDateTime
 from generateDateTimeFromUserImput import generateDateTimeFromUserImput
-
+from datetimeMaster import *
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
@@ -26,22 +26,23 @@ def main():
     sizeTypeA = 9
     buttonWidth = 50
     buttonHaight = 2
+    datetimeBoxSize = 4
     layout = [
-        [sg.Text("概要", size=(sizeTypeA)), sg.InputText(
-            "", size=(98), key="summary")],
+        [sg.Text("概要", size=(sizeTypeA)),
+         sg.InputText("", size=(98), key="summary")],
         [sg.Text("場所", size=(sizeTypeA)), sg.InputText(
             "", size=(98), key="location")],
         [sg.Text("説明", size=(sizeTypeA)), sg.InputText(
             "", size=(98), key=("description"))],
-        [sg.Text("開始年月日", size=(sizeTypeA)), sg.InputText("", size=(10, 1), key="startYear"), sg.Text("年"),
-         sg.InputText("", size=(10, 1), key=("startMonth")), sg.Text("月"), sg.InputText("", size=(10, 1), key=("startDate")), sg.Text("日")],
-        [sg.Text("開始時間", size=(sizeTypeA)), sg.InputText("", size=(10), key=("startHour")),
-         sg.Text("時"), sg.InputText("", size=(10), key=("startMinute")), sg.Text("分")],
+        [sg.Text("開始年月日", size=(sizeTypeA)), sg.InputText(thisYear(), size=(datetimeBoxSize), key="startYear"), sg.Text("年"),
+         sg.InputText(thisMonth(), size=(datetimeBoxSize), key=("startMonth")), sg.Text("月"), sg.InputText(thisDay(), size=(datetimeBoxSize), key=("startDate")), sg.Text("日")],
+        [sg.Text("開始時間", size=(sizeTypeA)), sg.InputText("", size=(datetimeBoxSize), key=("startHour")),
+         sg.Text("時"), sg.InputText("", size=(datetimeBoxSize), key=("startMinute")), sg.Text("分")],
         [sg.Text("", size=(sizeTypeA)), sg.Text("↓↓↓")],
-        [sg.Text("終了年月日", size=(sizeTypeA)), sg.InputText("", size=(10, 1), key="endYear"), sg.Text(
-            "年", ), sg.InputText("", size=(10, 1), key=("endMonth")), sg.Text("月", ), sg.InputText("", size=(10, 1), key=("endDate")), sg.Text("日")],
-        [sg.Text("終了時間", size=(sizeTypeA)), sg.InputText("", size=(10), key=("endHour")),
-         sg.Text("時"), sg.InputText("", size=(10), key="endMinute"), sg.Text("分")],
+        [sg.Text("終了年月日", size=(sizeTypeA)), sg.InputText(thisYear(), size=(datetimeBoxSize), key="endYear"), sg.Text(
+            "年", ), sg.InputText(thisMonth(), size=(datetimeBoxSize), key=("endMonth")), sg.Text("月", ), sg.InputText(thisDay(), size=(datetimeBoxSize), key=("endDate")), sg.Text("日")],
+        [sg.Text("終了時間", size=(sizeTypeA)), sg.InputText("", size=(datetimeBoxSize), key=("endHour")),
+         sg.Text("時"), sg.InputText("", size=(datetimeBoxSize), key="endMinute"), sg.Text("分")], [sg.Text(size=(98), key=("result"))],
         [sg.Button("登録", key="Submit", size=(buttonWidth, buttonHaight)), sg.Button(
             "取消", key="Cancell", size=(buttonWidth, buttonHaight))]
     ]
@@ -110,7 +111,7 @@ def main():
         event id = """+calendarEvent['id'] + """
         ---------------------------------------
         """)
-            input()
+            window["result"].update("予定の追加は正常に終了しました！！")
             break
     window.close()
     print(f'eventは{event}')
