@@ -1,3 +1,4 @@
+from xmlrpc.client import DateTime
 import PySimpleGUI as sg
 import os
 from tabnanny import check
@@ -12,6 +13,7 @@ import datetime
 from timeFormatCheck import timeFormatCheck
 from dateFormatCheck import dateFormatCheck
 from makeDateTime import makeDateTime
+from generateDateTimeFromUserImput import generateDateTimeFromUserImput
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -26,11 +28,11 @@ def main():
     buttonHaight = 2
     layout = [
         [sg.Text("概要", size=(sizeTypeA)), sg.InputText(
-            "", size=(98, 1), key="summary")],
+            "", size=(98), key="summary")],
         [sg.Text("場所", size=(sizeTypeA)), sg.InputText(
-            "", size=(98, 1), key="location")],
+            "", size=(98), key="location")],
         [sg.Text("説明", size=(sizeTypeA)), sg.InputText(
-            "", size=(98, 1), key=("description"))],
+            "", size=(98), key=("description"))],
         [sg.Text("開始年月日", size=(sizeTypeA)), sg.InputText("", size=(10, 1), key="startYear"), sg.Text("年"),
          sg.InputText("", size=(10, 1), key=("startMonth")), sg.Text("月"), sg.InputText("", size=(10, 1), key=("startDate")), sg.Text("日")],
         [sg.Text("開始時間", size=(sizeTypeA)), sg.InputText("", size=(10), key=("startHour")),
@@ -73,7 +75,42 @@ def main():
             calendarEvent["location"] = values["location"]
             calendarEvent['description'] = values["description"]
             # todo dateTime入力情報からを生成する式を作成し変更後挿入する
-            #todo start datetime を生成する。
+            calendarEvent["start"]["dateTime"] = generateDateTimeFromUserImput(
+                values["startYear"], values["startMonth"], values["startDate"], values["startHour"], values["startMinute"])
+            calendarEvent["end"]["dateTime"] = generateDateTimeFromUserImput(
+                values["endYear"], values["endMonth"], values["endDate"], values["endHour"], values["endMinute"]
+            )
+            print(calendarEvent)
+            creds = None
+            # The file token.pickle stores the user's access and refresh tokens, and is
+            # created automatically when the authorization flow completes for the first
+            # time.
+            if os.path.exists('token.pickle'):
+                with open('token.pickle', 'rb') as token:
+                    creds = pickle.load(token)
+            # If there are no (valid) credentials available, let the user log in.
+            if not creds or not creds.valid:
+                if creds and creds.expired and creds.refresh_token:
+                    creds.refresh(Request())
+                else:
+                    flow = InstalledAppFlow.from_client_secrets_file(
+                        "credentials.json", SCOPES)
+                    creds = flow.run_local_server(port=0)
+                # Save the credentials for the next run
+                with open('token.pickle', 'wb') as token:
+                    pickle.dump(creds, token)
+
+            service = build('calendar', 'v3', credentials=creds)
+
+            calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',
+                                                    body=calendarEvent).execute()
+            print("""
+        ---------------------------------------
+        Script succesfully!
+        event id = """+calendarEvent['id'] + """
+        ---------------------------------------
+        """)
+            input()
             break
     window.close()
     print(f'eventは{event}')
