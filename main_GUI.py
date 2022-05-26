@@ -1,6 +1,5 @@
 import PySimpleGUI as sg
 import os
-from __future__ import print_function
 from tabnanny import check
 from tracemalloc import start
 from google.auth.transport.requests import Request
@@ -69,11 +68,12 @@ def main():
                 },
             }
 
-        #insert calendar event
-            calendarEvent["summary"] = event["summary"]
-            calendarEvent["location"] = event["location"]
-            calendarEvent['description'] = event["discription"]
-            #todo dateTime入力情報からを生成する式を作成し変更後挿入する
+        # insert calendar event
+            calendarEvent["summary"] = values["summary"]
+            calendarEvent["location"] = values["location"]
+            calendarEvent['description'] = values["description"]
+            # todo dateTime入力情報からを生成する式を作成し変更後挿入する
+            #todo start datetime を生成する。
             break
     window.close()
     print(f'eventは{event}')
