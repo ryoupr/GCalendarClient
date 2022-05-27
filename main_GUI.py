@@ -35,12 +35,17 @@ def main():
         [sg.Text("説明", size=(sizeTypeA)), sg.InputText(
             "", size=(98), key=("description"))],
         [sg.Text("開始年月日", size=(sizeTypeA)), sg.InputText(thisYear(), size=(datetimeBoxSize), key="startYear"), sg.Text("年"),
-         sg.InputText(thisMonth(), size=(datetimeBoxSize), key=("startMonth")), sg.Text("月"), sg.InputText(thisDay(), size=(datetimeBoxSize), key=("startDate")), sg.Text("日")],
-        [sg.Text("開始時間", size=(sizeTypeA)), sg.InputText("", size=(datetimeBoxSize), key=("startHour")),
-         sg.Text("時"), sg.InputText("", size=(datetimeBoxSize), key=("startMinute")), sg.Text("分")],
+         sg.InputText(thisMonth(), size=(datetimeBoxSize), key=("startMonth")), sg.Text("月"), sg.InputText(today(), size=(datetimeBoxSize), key=("startDate")), sg.Text("日")],
+        [sg.Text("開始時間", size=(sizeTypeA)),
+         sg.InputText("", size=(datetimeBoxSize), key=("startHour")),
+         sg.Text("時"),
+         sg.InputText("", size=(datetimeBoxSize), key=("startMinute")),
+         sg.Text("分"),
+         sg.Checkbox("終日", key="allDay")
+         ],
         [sg.Text("", size=(sizeTypeA)), sg.Text("↓↓↓")],
         [sg.Text("終了年月日", size=(sizeTypeA)), sg.InputText(thisYear(), size=(datetimeBoxSize), key="endYear"), sg.Text(
-            "年", ), sg.InputText(thisMonth(), size=(datetimeBoxSize), key=("endMonth")), sg.Text("月", ), sg.InputText(thisDay(), size=(datetimeBoxSize), key=("endDate")), sg.Text("日")],
+            "年", ), sg.InputText(thisMonth(), size=(datetimeBoxSize), key=("endMonth")), sg.Text("月", ), sg.InputText(today(), size=(datetimeBoxSize), key=("endDate")), sg.Text("日")],
         [sg.Text("終了時間", size=(sizeTypeA)), sg.InputText("", size=(datetimeBoxSize), key=("endHour")),
          sg.Text("時"), sg.InputText("", size=(datetimeBoxSize), key="endMinute"), sg.Text("分")], [sg.Text(size=(98), key=("result"))],
         [sg.Button("登録", key="Submit", size=(buttonWidth, buttonHaight)), sg.Button(
@@ -55,33 +60,54 @@ def main():
             break
 
         if event == "Submit":
-            print("送信ボタンが押されました")
-            # CLI版のmain.pyの中身を移植
-            calendarEvent = {
-                'summary': "",
-                'location': "",
-                'description': "",
-                'start': {
-                    'dateTime': "",
-                    'timeZone': 'Japan',
-                },
-                'end': {
-                    'dateTime': "",
-                    'timeZone': 'Japan',
-                },
-            }
+            if values["allDay"]:
+                calendarEvent = {
+                    'summary': "",
+                    'location': "",
+                    'description': "",
+                    'start': {
+                        'date': "",
+                        'timeZone': 'Japan',
+                    },
+                    'end': {
+                        'date': "",
+                        'timeZone': 'Japan',
+                    },
+                }
+                # insert calendar event
+                calendarEvent["summary"] = values["summary"]
+                calendarEvent["location"] = values["location"]
+                calendarEvent['description'] = values["description"]
+                calendarEvent["start"]["date"] = generateDate(
+                    values["startYear"], values["startMonth"], values["startDate"])
+                calendarEvent["end"]["date"] = generateDate(
+                    values["endYear"], values["endMonth"], values["endDate"]
+                )
+            else:
+                # CLI版のmain.pyの中身を移植
+                calendarEvent = {
+                    'summary': "",
+                    'location': "",
+                    'description': "",
+                    'start': {
+                        'dateTime': "",
+                        'timeZone': 'Japan',
+                    },
+                    'end': {
+                        'dateTime': "",
+                        'timeZone': 'Japan',
+                    },
+                }
 
-        # insert calendar event
-            calendarEvent["summary"] = values["summary"]
-            calendarEvent["location"] = values["location"]
-            calendarEvent['description'] = values["description"]
-            # todo dateTime入力情報からを生成する式を作成し変更後挿入する
-            calendarEvent["start"]["dateTime"] = generateDateTimeFromUserImput(
-                values["startYear"], values["startMonth"], values["startDate"], values["startHour"], values["startMinute"])
-            calendarEvent["end"]["dateTime"] = generateDateTimeFromUserImput(
-                values["endYear"], values["endMonth"], values["endDate"], values["endHour"], values["endMinute"]
-            )
-            print(calendarEvent)
+            # insert calendar event
+                calendarEvent["summary"] = values["summary"]
+                calendarEvent["location"] = values["location"]
+                calendarEvent['description'] = values["description"]
+                calendarEvent["start"]["dateTime"] = generateDateTimeFromUserImput(
+                    values["startYear"], values["startMonth"], values["startDate"], values["startHour"], values["startMinute"])
+                calendarEvent["end"]["dateTime"] = generateDateTimeFromUserImput(
+                    values["endYear"], values["endMonth"], values["endDate"], values["endHour"], values["endMinute"]
+                )
             creds = None
             # The file token.pickle stores the user's access and refresh tokens, and is
             # created automatically when the authorization flow completes for the first
@@ -105,17 +131,8 @@ def main():
 
             calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',
                                                     body=calendarEvent).execute()
-            print("""
-        ---------------------------------------
-        Script succesfully!
-        event id = """+calendarEvent['id'] + """
-        ---------------------------------------
-        """)
             window["result"].update("予定の追加は正常に終了しました！！")
-            break
     window.close()
-    print(f'eventは{event}')
-    print(f'valuesは{values}')
 
 
 if __name__ == "__main__":

@@ -13,12 +13,21 @@ def thisMonth():
     thisMonth = now[5]+now[6]
     return thisMonth
 
-def thisDay():
+
+def today():
     now = str(datetime.date.today())
-    thisDay = now[8]+now[9]
-    return thisDay
+    today = now[8]+now[9]
+    return today
+
+
+def generateDate(year, month, date):
+    date = f"{year}-{month}-{date}"
+    return date
+
 
 if __name__ == "__main__":
-    print(thisYear())
-    print(thisMonth())
-    print(thisDay())
+    print("Functions return.")
+    print("thisYear     "+str(thisYear()))
+    print("thisMonth    "+str(thisMonth()))
+    print("today        "+str(today()))
+    print("generateDate "+generateDate("2000","07","10"))
