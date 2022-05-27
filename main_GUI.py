@@ -1,3 +1,4 @@
+# Coding UTF-8
 from xmlrpc.client import DateTime
 import PySimpleGUI as sg
 import os
@@ -7,6 +8,7 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import pickle
+import configparser
 import datetime
 
 # Import user func
@@ -20,8 +22,10 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 
 def main():
-    # Theme = DarkAmber
-    sg.theme("DarkAmber")
+    # Impot confi.get()
+    config = configparser.ConfigParser()
+    config.read("./setting/setting.ini")
+    sg.theme(config["DEFAULT"]["theme"])
     # 項目名サイズ
     sizeTypeA = 9
     buttonWidth = 50
@@ -57,6 +61,7 @@ def main():
     while True:
         event, values = window.read()
         if event == sg.WIN_CLOSED or event == "Cancell":
+            print("Escape")
             break
 
         if event == "Submit":
