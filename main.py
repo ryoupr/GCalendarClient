@@ -59,11 +59,12 @@ def main():
 
     while True:
         event, values = window.read()
+        # windowが閉じられたり、キャンセルボタンが押されたときプログラムを終了
         if event == sg.WIN_CLOSED or event == "Cancell":
-            print("Escape")
             break
-
+        # 登録ボタンが押された時の処理
         if event == "Submit":
+            # 終日チェックボックスにチェックが入っていた場合
             if values["allDay"]:
                 calendarEvent = {
                     'summary': "",
@@ -88,7 +89,7 @@ def main():
                     values["endYear"], values["endMonth"], values["endDate"]
                 )
             else:
-                # CLI版のmain.pyの中身を移植
+                # 終日イベントでない場合
                 calendarEvent = {
                     'summary': "",
                     'location': "",
@@ -102,7 +103,6 @@ def main():
                         'timeZone': 'Japan',
                     },
                 }
-
             # insert calendar event
                 calendarEvent["summary"] = values["summary"]
                 calendarEvent["location"] = values["location"]
