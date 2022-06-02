@@ -9,7 +9,7 @@ import pickle
 import datetime
 
 # Import user func
-from timeFormatCheck import timeFormatCheck
+from FormatCheck import timeFormatCheck
 from dateFormatCheck import dateFormatCheck
 
 

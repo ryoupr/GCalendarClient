@@ -12,10 +12,8 @@ import configparser
 import datetime
 
 # Import user func
-from timeFormatCheck import timeFormatCheck
-from dateFormatCheck import dateFormatCheck
-from makeDateTime import makeDateTime
-from generateDateTimeFromUserImput import generateDateTimeFromUserImput
+from FormatCheck import timeFormatCheck , dateFormatCheck
+from Generator import generateDateTimeFromUserImput, makeDateTime
 from datetimeMaster import *
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
