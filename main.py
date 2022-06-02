@@ -54,7 +54,8 @@ def main():
             "取消", key="Cancell", size=(buttonWidth, buttonHaight))]
     ]
 
-    window = sg.Window("GoogleCalendarに予定を追加", layout)
+    window = sg.Window("GoogleCalendarに予定を追加", layout,
+                       icon=r'./img/icon/calendarIcon.png')
 
     while True:
         event, values = window.read()

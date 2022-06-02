@@ -29,21 +29,8 @@ def dateFormatCheck(date):
             return(0)
 
 
-def main():
-    dateFlag = 0
-    while dateFlag == 0:
-        startDate = input("Start date(yyyy-mm-dd):")
-        dateFlag = dateFormatCheck(startDate)
-        if dateFlag == 1:
-            break
-        else:
-            print("Invalid format. Please enter again.")
-
-
 if __name__ == "__main__":
     main()
-
-
 
 
 def main():
