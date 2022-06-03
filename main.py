@@ -1,4 +1,5 @@
 # Coding UTF-8
+from http.client import OK
 from xmlrpc.client import DateTime
 import PySimpleGUI as sg
 import os
@@ -80,6 +81,27 @@ def main():
                     },
                 }
                 # insert calendar event
+                FCResult = False
+                FCFlags = {"SYFCFlag": '', 'SYFCFlag': '', 'SMFCFlag': '',
+                           'SDFCFlag': '', 'EYFCFlag': '', 'EMFCFlag': ''}
+                FCFlags['SYFCFlag'] = startYearFC(values['startYear'])
+                if False not in FCFlags.values():
+                    FCFlags['SMFCFlag'] = startMonthFC(
+                        values['startYear'], values['startMonth'])
+                if False not in FCFlags.values():
+                    FCFlags['SDFCFlag'] = startDateFC(
+                        values['startYear'], values['startMonth'], values['startDate'])
+                if False not in FCFlags.values():
+                    FCFlags['EYFCFlag'] = endYearFC(
+                        values['startYear'], values['endYear'])
+                if False not in FCFlags.values():
+                    FCFlags['EMFCFlag'] = endMonthFC(
+                        values["startYear"], values['endYear'], values['startMonth'], values['endMonth'])
+                if False not in FCFlags.values():
+                    FCFlags['EDFCFlag'] = endDateFC(values['startYear'], values['endYear'], values['startMonth'],
+                                         values['endMonth'], values['startDate'], values['endDate'])
+                if False not in FCFlags.values():
+                    FCResult = True
                 calendarEvent["summary"] = values["summary"]
                 calendarEvent["location"] = values["location"]
                 calendarEvent['description'] = values["description"]
@@ -113,29 +135,32 @@ def main():
                     values["endYear"], values["endMonth"], values["endDate"], values["endHour"], values["endMinute"]
                 )
             creds = None
-            # The file token.pickle stores the user's access and refresh tokens, and is
-            # created automatically when the authorization flow completes for the first
-            # time.
-            if os.path.exists('token.pickle'):
-                with open('token.pickle', 'rb') as token:
-                    creds = pickle.load(token)
-            # If there are no (valid) credentials available, let the user log in.
-            if not creds or not creds.valid:
-                if creds and creds.expired and creds.refresh_token:
-                    creds.refresh(Request())
-                else:
-                    flow = InstalledAppFlow.from_client_secrets_file(
-                        "credentials.json", SCOPES)
-                    creds = flow.run_local_server(port=0)
-                # Save the credentials for the next run
-                with open('token.pickle', 'wb') as token:
-                    pickle.dump(creds, token)
+            if FCResult:
+                # The file token.pickle stores the user's access and refresh tokens, and is
+                # created automatically when the authorization flow completes for the first
+                # time.
+                if os.path.exists('token.pickle'):
+                    with open('token.pickle', 'rb') as token:
+                        creds = pickle.load(token)
+                # If there are no (valid) credentials available, let the user log in.
+                if not creds or not creds.valid:
+                    if creds and creds.expired and creds.refresh_token:
+                        creds.refresh(Request())
+                    else:
+                        flow = InstalledAppFlow.from_client_secrets_file(
+                            "credentials.json", SCOPES)
+                        creds = flow.run_local_server(port=0)
+                    # Save the credentials for the next run
+                    with open('token.pickle', 'wb') as token:
+                        pickle.dump(creds, token)
 
-            service = build('calendar', 'v3', credentials=creds)
+                service = build('calendar', 'v3', credentials=creds)
 
-            calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',
-                                                    body=calendarEvent).execute()
-            window["result"].update("予定の追加は正常に終了しました！！")
+                calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',
+                                                        body=calendarEvent).execute()
+                window["result"].update("予定の追加は正常に終了しました！！")
+            else:
+                print("Err")
     window.close()
 
 
