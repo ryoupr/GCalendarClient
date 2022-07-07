@@ -18,6 +18,7 @@ from Generator import *
 from datetimeMaster import *
 from token_check import tExpiration_check
 
+#tiken.pickleが作成から一週間経過したら削除
 tExpiration_check()
 
 # If modifying these scopes, delete the file token.pickle.
@@ -27,6 +28,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 def main():
     # Impot confi.get()
     config = configparser.ConfigParser()
+    #setting.iniからスキン情報を取得し適用
     config.read("./setting/setting.ini")
     sg.theme(config["DEFAULT"]["theme"])
     # 項目名サイズ
@@ -34,6 +36,7 @@ def main():
     buttonWidth = 50
     buttonHaight = 2
     datetimeBoxSize = 4
+    #PySimpleGUIレイアウト設定
     layout = [
         [sg.Text("概要", size=(sizeTypeA)),
          sg.InputText("", size=(98), key="summary")],
@@ -59,9 +62,10 @@ def main():
             "取消", key="Cancell", size=(buttonWidth, buttonHaight))]
     ]
 
+    #GUIWindowを出力
     window = sg.Window("GoogleCalendarに予定を追加", layout,
                        icon=r'./img/icon/calendarIcon.png')
-
+    #イベント待機状態へ移行
     while True:
         event, values = window.read()
         # windowが閉じられたり、キャンセルボタンが押されたときプログラムを終了
@@ -160,8 +164,9 @@ def main():
 
                 service = build('calendar', 'v3', credentials=creds)
 
-                calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',
-                                                        body=calendarEvent).execute()
+                calendarEvent = service.events().insert(
+                    calendarId=config["CALENDAR"]["calendarID"], body=calendarEvent).execute()
+                # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
                 window["result"].update("予定の追加は正常に終了しました！！")
             else:
                 print("Err")
