@@ -65,7 +65,7 @@ def main():
             break
         # 登録ボタンが押された時の処理
         if event == "Submit":
-            # 終日チェックボックスにチェックが入っていた場合
+            # 終日チェックボックスにチェックがTrueの場合
             if values["allDay"]:
                 calendarEvent = {
                     'summary': "",
@@ -99,7 +99,7 @@ def main():
                         values["startYear"], values['endYear'], values['startMonth'], values['endMonth'])
                 if False not in FCFlags.values():
                     FCFlags['EDFCFlag'] = endDateFC(values['startYear'], values['endYear'], values['startMonth'],
-                                         values['endMonth'], values['startDate'], values['endDate'])
+                                                    values['endMonth'], values['startDate'], values['endDate'])
                 if False not in FCFlags.values():
                     FCResult = True
                 calendarEvent["summary"] = values["summary"]
