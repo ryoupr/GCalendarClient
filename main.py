@@ -16,6 +16,10 @@ import datetime
 from FormatCheck import *
 from Generator import *
 from datetimeMaster import *
+from token_check import tExpiration_check
+
+tExpiration_check()
+
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
