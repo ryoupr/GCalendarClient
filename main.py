@@ -17,6 +17,7 @@ from check_format import *
 from generate_datetime import *
 from datetime_master import *
 from check_token import check_token_expiration
+import windowlayout
 
 # tiken.pickleが作成から一週間経過したら削除
 check_token_expiration()
@@ -28,41 +29,8 @@ config.read('./setting/setting.ini')
 SCOPES = '[' + config['DEFAULT']['scope'] + ']'
 
 def main():
-    # setting.iniからスキン情報を取得し適用
-    sg.theme(config['DEFAULT']['theme'])
-    # 項目名サイズ
-    sizeTypeA = 9
-    buttonWidth = 50
-    buttonHaight = 2
-    datetimeBoxSize = 4
-    # PySimpleGUIレイアウト設定
-    layout = [
-        [sg.Text('概要', size=(sizeTypeA)),
-         sg.InputText('', size=(98), key='summary')],
-        [sg.Text('場所', size=(sizeTypeA)), sg.InputText(
-            '', size=(98), key='location')],
-        [sg.Text('説明', size=(sizeTypeA)), sg.InputText(
-            '', size=(98), key=('description'))],
-        [sg.Text('開始年月日', size=(sizeTypeA)), sg.InputText(this_year(), size=(datetimeBoxSize), key='startYear'), sg.Text('年'),
-         sg.InputText(this_month(), size=(datetimeBoxSize), key=('startMonth')), sg.Text('月'), sg.InputText(today(), size=(datetimeBoxSize), key=('startDate')), sg.Text('日')],
-        [sg.Text('開始時間', size=(sizeTypeA)),
-         sg.InputText('', size=(datetimeBoxSize), key=('startHour')),
-         sg.Text('時'),
-         sg.InputText('', size=(datetimeBoxSize), key=('startMinute')),
-         sg.Text('分'),
-         sg.Checkbox('終日', key='allDay')
-         ],
-        [sg.Text('', size=(sizeTypeA)), sg.Text('↓↓↓')],
-        [sg.Text('終了年月日', size=(sizeTypeA)), sg.InputText(this_year(), size=(datetimeBoxSize), key='endYear'), sg.Text(
-            '年', ), sg.InputText(this_month(), size=(datetimeBoxSize), key=('endMonth')), sg.Text('月', ), sg.InputText(today(), size=(datetimeBoxSize), key=('endDate')), sg.Text('日')],
-        [sg.Text('終了時間', size=(sizeTypeA)), sg.InputText('', size=(datetimeBoxSize), key=('endHour')),
-         sg.Text('時'), sg.InputText('', size=(datetimeBoxSize), key='endMinute'), sg.Text('分')], [sg.Text(size=(98), key=('result'))],
-        [sg.Button('登録', key='Submit', size=(buttonWidth, buttonHaight)), sg.Button(
-            '取消', key='Cancell', size=(buttonWidth, buttonHaight))]
-    ]
-
     # GUIWindowを出力
-    window = sg.Window('GoogleCalendarに予定を追加', layout, resizable=True)
+    window = sg.Window('GoogleCalendarに予定を追加', windowlayout.windowlayout, resizable=True)
     # イベント待機状態へ移行
     while True:
         event, values = window.read()
