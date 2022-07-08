@@ -22,14 +22,13 @@ from check_token import check_token_expiration
 check_token_expiration()
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/calendar']
-
+# 設定ファイルの読み込み
+config = configparser.ConfigParser()
+config.read('./setting/setting.ini')
+SCOPES = '[' + config['DEFAULT']['scope'] + ']'
 
 def main():
-    # Impot confi.get()
-    config = configparser.ConfigParser()
     # setting.iniからスキン情報を取得し適用
-    config.read('./setting/setting.ini')
     sg.theme(config['DEFAULT']['theme'])
     # 項目名サイズ
     sizeTypeA = 9
@@ -74,6 +73,7 @@ def main():
         if event == 'Submit':
             # 終日チェックボックスにチェックがTrueの場合
             if values['allDay']:
+                #終日用の送信辞書を定義
                 calendarEvent = {
                     'summary': '',
                     'location': '',
@@ -87,35 +87,36 @@ def main():
                         'timeZone': 'Japan',
                     },
                 }
-                # insert calendar event
-                FCResult = False
-                FCFlags = {'SYFCFlag': '', 'SYFCFlag': '', 'SMFCFlag': '',
+                #データがおかしくないか検証
+                is_verify_ok = False
+                verify_flags = {'SYFCFlag': '', 'SYFCFlag': '', 'SMFCFlag': '',
                            'SDFCFlag': '', 'EYFCFlag': '', 'EMFCFlag': ''}
-                FCFlags['SYFCFlag'] = verify_year(values['startYear'])
-                if False not in FCFlags.values():
-                    FCFlags['SMFCFlag'] = verify_month(
+                verify_flags['SYFCFlag'] = verify_year(values['startYear'])
+                #検証用辞書の中にFalseが一つもなければ続行
+                if False not in verify_flags.values():
+                    verify_flags['SMFCFlag'] = verify_month(
                         values['startYear'], values['startMonth'])
-                if False not in FCFlags.values():
-                    FCFlags['SDFCFlag'] = verify_start_date(
+                if False not in verify_flags.values():
+                    verify_flags['SDFCFlag'] = verify_start_date(
                         values['startYear'], values['startMonth'], values['startDate'])
-                if False not in FCFlags.values():
-                    FCFlags['EYFCFlag'] = verify_end_year(
+                if False not in verify_flags.values():
+                    verify_flags['EYFCFlag'] = verify_end_year(
                         values['startYear'], values['endYear'])
-                if False not in FCFlags.values():
-                    FCFlags['EMFCFlag'] = verify_end_month(
+                if False not in verify_flags.values():
+                    verify_flags['EMFCFlag'] = verify_end_month(
                         values['startYear'], values['endYear'], values['startMonth'], values['endMonth'])
-                if False not in FCFlags.values():
-                    FCFlags['EDFCFlag'] = verify_end_date(values['startYear'], values['endYear'], values['startMonth'],
+                if False not in verify_flags.values():
+                    verify_flags['EDFCFlag'] = verify_end_date(values['startYear'], values['endYear'], values['startMonth'],
                                                     values['endMonth'], values['startDate'], values['endDate'])
-                if False not in FCFlags.values():
-                    FCResult = True
-                calendarEvent['summary'] = values['summary']
-                calendarEvent['location'] = values['location']
-                calendarEvent['description'] = values['description']
-                calendarEvent['start']['date'] = generateDate(
-                    values['startYear'], values['startMonth'], values['startDate'])
-                calendarEvent['end']['date'] = generateDate(
-                    values['endYear'], values['endMonth'], values['endDate']
+                if False not in verify_flags.values():
+                    is_verify_ok = True
+                    calendarEvent['summary'] = values['summary']
+                    calendarEvent['location'] = values['location']
+                    calendarEvent['description'] = values['description']
+                    calendarEvent['start']['date'] = generateDate(
+                        values['startYear'], values['startMonth'], values['startDate'])
+                    calendarEvent['end']['date'] = generateDate(
+                        values['endYear'], values['endMonth'], values['endDate']
                 )
             else:
                 # 終日イベントでない場合
@@ -142,7 +143,8 @@ def main():
                     values['endYear'], values['endMonth'], values['endDate'], values['endHour'], values['endMinute']
                 )
             creds = None
-            if FCResult:
+            #検証結果がTrue＝OKならリクエストを送信
+            if is_verify_ok:
                 # The file token.pickle stores the user's access and refresh tokens, and is
                 # created automatically when the authorization flow completes for the first
                 # time.
@@ -167,6 +169,9 @@ def main():
                     calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
                 # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
                 window['result'].update('予定の追加は正常に終了しました！！')
+                window['summary'].update('')
+                window['location'].update('')
+                window['description'].update('')
                 print('is resistered')
             else:
                 window['result'].update('予定の情報にエラーがあります')
