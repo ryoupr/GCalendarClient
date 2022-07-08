@@ -1,5 +1,6 @@
 from operator import truediv
 from sqlite3 import Date
+from ssl import VerifyFlags
 from datetime_master import *
 from calendar import calendar, isleap
 
@@ -90,12 +91,34 @@ def verify_end_date(sy, ey, sm, em, sd, ed):
         return False
 
 
+def verify_all_day_event(values):
+    is_verified = False
+    verify_flags = {'IS_VERIFIED_S_YEAR': '', 'IS_VERIFIED_S_MONTH': '', 'IS_VERIFIED_S_DATE': '',
+                    'IS_VERIFIED_E_YEAR': '', 'IS_VERIFIED_E_MONTH': '', 'IS_VERIFIED_E_DATE': ''}
+    verify_flags['IS_VERIFIED_S_YEAR'] = verify_year(values['startYear'])
+    # 検証用辞書の中にFalseが一つもなければ続行
+    if False not in verify_flags.values():
+        verify_flags['IS_VERIFIED_S_MONTH'] = verify_month(
+            values['startYear'], values['startMonth'])
+    if False not in verify_flags.values():
+        verify_flags['IS_VERIFIED_S_DATE'] = verify_start_date(
+            values['startYear'], values['startMonth'], values['startDate'])
+    if False not in verify_flags.values():
+        verify_flags['IS_VERIFIED_E_YEAR'] = verify_end_year(
+            values['startYear'], values['endYear'])
+    if False not in verify_flags.values():
+        verify_flags['IS_VERIFIED_E_MONTH'] = verify_end_month(
+            values['startYear'], values['endYear'], values['startMonth'], values['endMonth'])
+    if False not in verify_flags.values():
+        verify_flags['IS_VERIFIED_E_DATE'] = verify_end_date(
+            values['startYear'], values['endYear'], values['startMonth'], values['endMonth'], values['startDate'], values['endDate'])
+    if False not in verify_flags.values():
+        return True
+    else:
+        return False
+
+
+
+
 if __name__ == '__main__':
-    year = '2022'
-    month = '06'
-    date = '03'
-    # print(verify_year(year))
-    # print(verify_month(year,month))
-    # print(verify_start_date(year, month,date))
-    # print(verify_end_year('2023','2024'))
-    print(verify_end_month('2022', '2023', '06', '05'))
+    here_is = '検証用エリア'

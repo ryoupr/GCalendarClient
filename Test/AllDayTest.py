@@ -9,8 +9,8 @@ import pickle
 import datetime
 
 # Import user func
-from check_format import timeFormatCheck
-from check_format import dateFormatCheck
+from verify_format import timeFormatCheck
+from verify_format import dateFormatCheck
 
 
 def makeDateTime(date, time):

@@ -13,7 +13,7 @@ import configparser
 import datetime
 
 # Import user func
-from check_format import *
+from verify_format import *
 from generate_datetime import *
 from datetime_master import *
 from check_token import check_token_expiration
@@ -55,35 +55,14 @@ def main():
                         'timeZone': 'Japan',
                     },
                 }
-                #データがおかしくないか検証
-                is_verify_ok = False
-                verify_flags = {'IS_START_YEAR_OK': '', 'IS_START_MONTH_OK': '',
-                           'IS_START_DATE_OK': '', 'IS_END_YEAR_OK': '', 'IS_END_MONTH_OK': '','IS_END_DATE_OK':''}
-                verify_flags['IS_START_YEAR_OK'] = verify_year(values['startYear'])
-                #検証用辞書の中にFalseが一つもなければ続行
-                if False not in verify_flags.values():
-                    verify_flags['IS_START_MONTH_OK'] = verify_month(
-                        values['startYear'], values['startMonth'])
-                if False not in verify_flags.values():
-                    verify_flags['IS_START_DATE_OK'] = verify_start_date(
-                        values['startYear'], values['startMonth'], values['startDate'])
-                if False not in verify_flags.values():
-                    verify_flags['IS_END_YEAR_OK'] = verify_end_year(
-                        values['startYear'], values['endYear'])
-                if False not in verify_flags.values():
-                    verify_flags['IS_END_MONTH_OK'] = verify_end_month(
-                        values['startYear'], values['endYear'], values['startMonth'], values['endMonth'])
-                if False not in verify_flags.values():
-                    verify_flags['IS_END_DATE_OK'] = verify_end_date(values['startYear'], values['endYear'], values['startMonth'],
-                                                    values['endMonth'], values['startDate'], values['endDate'])
-                if False not in verify_flags.values():
-                    is_verify_ok = True
+                if verify_all_day_event(values):
+                    is_verified = True
                     calendarEvent['summary'] = values['summary']
                     calendarEvent['location'] = values['location']
                     calendarEvent['description'] = values['description']
-                    calendarEvent['start']['date'] = generateDate(
+                    calendarEvent['start']['date'] = generate_date(
                         values['startYear'], values['startMonth'], values['startDate'])
-                    calendarEvent['end']['date'] = generateDate(
+                    calendarEvent['end']['date'] = generate_date(
                         values['endYear'], values['endMonth'], values['endDate']
                 )
             else:
@@ -101,7 +80,8 @@ def main():
                         'timeZone': 'Japan',
                     },
                 }
-            # insert calendar event
+                #todo 終日イベントでないときも検証を行うように追加を
+                # insert calendar event
                 calendarEvent['summary'] = values['summary']
                 calendarEvent['location'] = values['location']
                 calendarEvent['description'] = values['description']
@@ -112,7 +92,7 @@ def main():
                 )
             creds = None
             #検証結果がTrue＝OKならリクエストを送信
-            if is_verify_ok:
+            if is_verified:
                 # The file token.pickle stores the user's access and refresh tokens, and is
                 # created automatically when the authorization flow completes for the first
                 # time.
@@ -136,6 +116,7 @@ def main():
                 calendarEvent = service.events().insert(
                     calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
                 # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
+                print(values)
                 window['result'].update('予定の追加は正常に終了しました！！')
                 window['summary'].update('')
                 window['location'].update('')
