@@ -4,7 +4,7 @@ from lib2to3.pgen2 import token
 import os
 
 
-def tExpiration_check():
+def check_token_expiration():
     try:
         # 現在日時を取得
         now = datetime.datetime.now()
@@ -24,5 +24,5 @@ def tExpiration_check():
         return
 
 
-if __name__ == "__main__":
-    tExpiration_check()
+if __name__ == '__main__':
+    check_token_expiration()

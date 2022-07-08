@@ -27,6 +27,4 @@ icon負荷がうまくいかないので最後にPyinstallerを使って付加�
         開始時間
         終了時間
 #todo formatcheckの仕組みを作って組み込む
-#todo 〇〇check系統の関数の戻り値をBoolian型に変更
-#todo token.pickleの時間切れ問題の解決
-    作成日時から一週間経過で自動的に削除されるようにしては？
+token.pickleを作成から一週間経過したら削除するように関数を用意し導入した。
