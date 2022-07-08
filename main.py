@@ -57,24 +57,24 @@ def main():
                 }
                 #データがおかしくないか検証
                 is_verify_ok = False
-                verify_flags = {'SYFCFlag': '', 'SYFCFlag': '', 'SMFCFlag': '',
-                           'SDFCFlag': '', 'EYFCFlag': '', 'EMFCFlag': ''}
-                verify_flags['SYFCFlag'] = verify_year(values['startYear'])
+                verify_flags = {'IS_START_YEAR_OK': '', 'IS_START_MONTH_OK': '',
+                           'IS_START_DATE_OK': '', 'IS_END_YEAR_OK': '', 'IS_END_MONTH_OK': '','IS_END_DATE_OK':''}
+                verify_flags['IS_START_YEAR_OK'] = verify_year(values['startYear'])
                 #検証用辞書の中にFalseが一つもなければ続行
                 if False not in verify_flags.values():
-                    verify_flags['SMFCFlag'] = verify_month(
+                    verify_flags['IS_START_MONTH_OK'] = verify_month(
                         values['startYear'], values['startMonth'])
                 if False not in verify_flags.values():
-                    verify_flags['SDFCFlag'] = verify_start_date(
+                    verify_flags['IS_START_DATE_OK'] = verify_start_date(
                         values['startYear'], values['startMonth'], values['startDate'])
                 if False not in verify_flags.values():
-                    verify_flags['EYFCFlag'] = verify_end_year(
+                    verify_flags['IS_END_YEAR_OK'] = verify_end_year(
                         values['startYear'], values['endYear'])
                 if False not in verify_flags.values():
-                    verify_flags['EMFCFlag'] = verify_end_month(
+                    verify_flags['IS_END_MONTH_OK'] = verify_end_month(
                         values['startYear'], values['endYear'], values['startMonth'], values['endMonth'])
                 if False not in verify_flags.values():
-                    verify_flags['EDFCFlag'] = verify_end_date(values['startYear'], values['endYear'], values['startMonth'],
+                    verify_flags['IS_END_DATE_OK'] = verify_end_date(values['startYear'], values['endYear'], values['startMonth'],
                                                     values['endMonth'], values['startDate'], values['endDate'])
                 if False not in verify_flags.values():
                     is_verify_ok = True
@@ -140,7 +140,7 @@ def main():
                 window['summary'].update('')
                 window['location'].update('')
                 window['description'].update('')
-                print('is resistered')
+                print('is registered')
             else:
                 window['result'].update('予定の情報にエラーがあります')
                 print('Err')
