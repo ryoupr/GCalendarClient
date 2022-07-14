@@ -28,9 +28,11 @@ config = configparser.ConfigParser()
 config.read('./setting/setting.ini')
 SCOPES = '[' + config['DEFAULT']['scope'] + ']'
 
+
 def main():
     # GUIWindowを出力
-    window = sg.Window('GoogleCalendarに予定を追加', windowlayout.windowlayout, resizable=True)
+    window = sg.Window('GoogleCalendarに予定を追加',
+                       windowlayout.windowlayout, resizable=True)
     # イベント待機状態へ移行
     while True:
         event, values = window.read()
@@ -41,7 +43,7 @@ def main():
         if event == 'Submit':
             # 終日チェックボックスにチェックがTrueの場合
             if values['allDay']:
-                #終日用の送信辞書を定義
+                # 終日用の送信辞書を定義
                 calendarEvent = {
                     'summary': '',
                     'location': '',
@@ -64,7 +66,7 @@ def main():
                         values['startYear'], values['startMonth'], values['startDate'])
                     calendarEvent['end']['date'] = generate_date(
                         values['endYear'], values['endMonth'], values['endDate']
-                )
+                    )
             else:
                 # 終日イベントでない場合
                 calendarEvent = {
@@ -80,7 +82,7 @@ def main():
                         'timeZone': 'Japan',
                     },
                 }
-                #todo 終日イベントでないときも検証を行うように追加を
+                # todo 終日イベントでないときも検証を行うように追加を
                 # insert calendar event
                 calendarEvent['summary'] = values['summary']
                 calendarEvent['location'] = values['location']
@@ -90,38 +92,39 @@ def main():
                 calendarEvent['end']['dateTime'] = generate_datetime(
                     values['endYear'], values['endMonth'], values['endDate'], values['endHour'], values['endMinute']
                 )
+                is_verified = True
             creds = None
-            #検証結果がTrue＝OKならリクエストを送信
+            # 検証結果がTrue＝OKならリクエストを送信
             if is_verified:
-                # The file token.pickle stores the user's access and refresh tokens, and is
-                # created automatically when the authorization flow completes for the first
-                # time.
-                if os.path.exists('token.pickle'):
-                    with open('token.pickle', 'rb') as token:
-                        creds = pickle.load(token)
-                # If there are no (valid) credentials available, let the user log in.
-                if not creds or not creds.valid:
-                    if creds and creds.expired and creds.refresh_token:
-                        creds.refresh(Request())
-                    else:
-                        flow = InstalledAppFlow.from_client_secrets_file(
-                            'credentials.json', SCOPES)
-                        creds = flow.run_local_server(port=0)
-                    # Save the credentials for the next run
-                    with open('token.pickle', 'wb') as token:
-                        pickle.dump(creds, token)
+                    # The file token.pickle stores the user's access and refresh tokens, and is
+                    # created automatically when the authorization flow completes for the first
+                    # time.
+                    if os.path.exists('token.pickle'):
+                        with open('token.pickle', 'rb') as token:
+                            creds = pickle.load(token)
+                    # If there are no (valid) credentials available, let the user log in.
+                    if not creds or not creds.valid:
+                        if creds and creds.expired and creds.refresh_token:
+                            creds.refresh(Request())
+                        else:
+                            flow = InstalledAppFlow.from_client_secrets_file(
+                                'credentials.json', SCOPES)
+                            creds = flow.run_local_server(port=0)
+                        # Save the credentials for the next run
+                        with open('token.pickle', 'wb') as token:
+                            pickle.dump(creds, token)
 
-                service = build('calendar', 'v3', credentials=creds)
+                    service = build('calendar', 'v3', credentials=creds)
 
-                calendarEvent = service.events().insert(
-                    calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
-                # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
-                print(values)
-                window['result'].update('予定の追加は正常に終了しました！！')
-                window['summary'].update('')
-                window['location'].update('')
-                window['description'].update('')
-                print('is registered')
+                    calendarEvent = service.events().insert(
+                        calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
+                    # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
+                    print(values)
+                    window['result'].update('予定の追加は正常に終了しました！！')
+                    window['summary'].update('')
+                    window['location'].update('')
+                    window['description'].update('')
+                    print('is registered')
             else:
                 window['result'].update('予定の情報にエラーがあります')
                 print('Err')
