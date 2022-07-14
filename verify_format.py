@@ -93,32 +93,29 @@ def verify_end_date(sy, ey, sm, em, sd, ed):
 
 def verify_all_day_event(values):
     is_verified = False
-    verify_flags = {'IS_VERIFIED_S_YEAR': '', 'IS_VERIFIED_S_MONTH': '', 'IS_VERIFIED_S_DATE': '',
-                    'IS_VERIFIED_E_YEAR': '', 'IS_VERIFIED_E_MONTH': '', 'IS_VERIFIED_E_DATE': ''}
-    verify_flags['IS_VERIFIED_S_YEAR'] = verify_year(values['startYear'])
+    verify_flags = {'IS_VERIFIED_START_YEAR': '', 'IS_VERIFIED_START_MONTH': '', 'IS_VERIFIED_START_DATE': '',
+                    'IS_VERIFIED_END_YEAR': '', 'IS_VERIFIED_END_MONTH': '', 'IS_VERIFIED_END_DATE': ''}
+    verify_flags['IS_VERIFIED_START_YEAR'] = verify_year(values['startYear'])
     # 検証用辞書の中にFalseが一つもなければ続行
     if False not in verify_flags.values():
-        verify_flags['IS_VERIFIED_S_MONTH'] = verify_month(
+        verify_flags['IS_VERIFIED_START_MONTH'] = verify_month(
             values['startYear'], values['startMonth'])
     if False not in verify_flags.values():
-        verify_flags['IS_VERIFIED_S_DATE'] = verify_start_date(
+        verify_flags['IS_VERIFIED_START_DATE'] = verify_start_date(
             values['startYear'], values['startMonth'], values['startDate'])
     if False not in verify_flags.values():
-        verify_flags['IS_VERIFIED_E_YEAR'] = verify_end_year(
+        verify_flags['IS_VERIFIED_END_YEAR'] = verify_end_year(
             values['startYear'], values['endYear'])
     if False not in verify_flags.values():
-        verify_flags['IS_VERIFIED_E_MONTH'] = verify_end_month(
+        verify_flags['IS_VERIFIED_END_MONTH'] = verify_end_month(
             values['startYear'], values['endYear'], values['startMonth'], values['endMonth'])
     if False not in verify_flags.values():
-        verify_flags['IS_VERIFIED_E_DATE'] = verify_end_date(
+        verify_flags['IS_VERIFIED_END_DATE'] = verify_end_date(
             values['startYear'], values['endYear'], values['startMonth'], values['endMonth'], values['startDate'], values['endDate'])
     if False not in verify_flags.values():
         return True
     else:
         return False
-
-
-
 
 if __name__ == '__main__':
     here_is = '検証用エリア'

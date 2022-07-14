@@ -33,6 +33,7 @@ def add_schedules(values):
             'timeZone': 'Japan',
         },
     }
+    #　終日イベントかどうかを検証
     if values['allDay']:
         # 終日イベント
         print('終日イベント')
@@ -43,7 +44,6 @@ def add_schedules(values):
         print(enddates)
         # forで回しながら予定を追加
         for i in range(0, len(startdates)):
-            #todo 入力データの検証
             calendarEvent['summary'] = values['summary']
             calendarEvent['location'] = values['location']
             calendarEvent['description'] = values['description']
@@ -54,6 +54,7 @@ def add_schedules(values):
             )
             print(calendarEvent)
             if verify_all_day_event(values):
+                #todo スケジュールの登録
                 pass
     else:
         # 非終日イベント
