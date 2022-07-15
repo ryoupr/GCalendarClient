@@ -31,8 +31,6 @@ config.read('./setting/setting.ini')
 SCOPES = []
 SCOPES.append(config['DEFAULT']['scope'])
 
-# SCOPES = '[' + config['DEFAULT']['scope'] + ']'
-
 
 def main():
     # GUIWindowを出力
@@ -47,6 +45,9 @@ def main():
         # 登録ボタンが押された時の処理
         if event == 'Submit':
             add_schedules(values)
+            window['summary'].update('')
+            window['location'].update('')
+            window['description'].update('')
             window['result'].update('予定の追加が完了しました')
     window.close()
 
