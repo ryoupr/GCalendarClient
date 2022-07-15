@@ -117,5 +117,7 @@ def verify_all_day_event(values):
     else:
         return False
 
+
+
 if __name__ == '__main__':
     here_is = '検証用エリア'

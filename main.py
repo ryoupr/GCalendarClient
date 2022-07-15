@@ -48,32 +48,8 @@ def main():
         if event == 'Submit':
             # 終日チェックボックスにチェックがTrueの場合
             if values['allDay']:
-                # 終日用の送信辞書を定義
-                calendarEvent = {
-                    'summary': '',
-                    'location': '',
-                    'description': '',
-                    'start': {
-                        'date': '',
-                        'timeZone': 'Japan',
-                    },
-                    'end': {
-                        'date': '',
-                        'timeZone': 'Japan',
-                    },
-                }
-                if verify_all_day_event(values):
-                    is_verified = True
-                    calendarEvent['summary'] = values['summary']
-                    calendarEvent['location'] = values['location']
-                    calendarEvent['description'] = values['description']
-                    calendarEvent['start']['date'] = generate_date(
-                        values['startYear'], values['startMonth'], values['startDate'])
-                    calendarEvent['end']['date'] = generate_date(
-                        values['endYear'], values['endMonth'], values['endDate']
-                    )
-                    # add_schedules(values)
-                    is_verified = True
+                print(values)
+                add_schedules(values)
             else:
                 # 終日イベントでない場合
                 calendarEvent = {
@@ -99,11 +75,9 @@ def main():
                 calendarEvent['end']['dateTime'] = generate_datetime(
                     values['endYear'], values['endMonth'], values['endDate'], values['endHour'], values['endMinute']
                 )
-                is_verified = True
             creds = None
             # 検証結果がTrueならリクエストを送信
-            print(is_verified)
-            if True:
+            if False:
                 # The file token.pickle stores the user's access and refresh tokens, and is
                 # created automatically when the authorization flow completes for the first
                 # time.
@@ -121,7 +95,7 @@ def main():
                     # Save the credentials for the next run
                     with open('token.pickle', 'wb') as token:
                         pickle.dump(creds, token)
-                #APIと対話するためのResourceオブジェクトを構築
+                # APIと対話するためのResourceオブジェクトを構築
                 service = build('calendar', 'v3', credentials=creds)
 
                 calendarEvent = service.events().insert(
@@ -133,8 +107,9 @@ def main():
                 window['description'].update('')
                 print('is registered')
             else:
-                window['result'].update('予定の情報にエラーがあります')
-                print('Err')
+                # window['result'].update('予定の情報にエラーがあります')
+                # print('Err')
+                pass
     window.close()
 
 
