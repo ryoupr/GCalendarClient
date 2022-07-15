@@ -73,7 +73,6 @@ calendarEvent
 {calendarEvent}
 ''')
                 registration(calendarEvent)
-                print('予定'+str(i+1)+'追加完了')
     else:
         # 非終日イベント
         print('非終日イベント')
@@ -114,7 +113,6 @@ def registration(calendarEvent):
     # トークン用変数初期化
     creds = None
     if os.path.exists('token.pickle'):
-        print('L116 is True')
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
             print(f'creds = {creds}')
@@ -134,6 +132,7 @@ def registration(calendarEvent):
             print('予定追加開始')
             calendarEvent = service.events().insert(
                 calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
+            print('予定追加完了')
 
             # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
 if __name__ == '__main__':
