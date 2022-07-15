@@ -47,6 +47,7 @@ def main():
         # 登録ボタンが押された時の処理
         if event == 'Submit':
             add_schedules(values)
+            window['result'].update('予定の追加が完了しました')
     window.close()
 
 
