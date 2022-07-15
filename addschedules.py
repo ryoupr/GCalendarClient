@@ -27,7 +27,7 @@ def include_conma(mat):
 
 
 # テスト用values
-values = {'summary': '0715', 'location': '場所', 'description': '説明', 'startYear': '2022', 'startMonth': '07', 'startDate': '16,18,19', 'startHour': '',
+values = {'summary': '0715', 'location': '日本工学院専門学校', 'description': '卒業制作製作過程でのテストです', 'startYear': '2022', 'startMonth': '07', 'startDate': '16,18,19', 'startHour': '',
           'startMinute': '', 'allDay': True, 'endYear': '2022', 'endMonth': '07', 'endDate': '16,18,19', 'endHour': '', 'endMinute': ''}
 
 
@@ -48,10 +48,13 @@ def add_schedules(values):
     }
     #　終日イベントかどうかを検証
     if values['allDay']:
+        print('終日イベント')
         # 終日イベント
         # カンマ区切りでリストを作成
         startdates = values['startDate'].split(',')
         enddates = values['endDate'].split(',')
+        print(f'statdates are {startdates}')
+        print(f'enddates  are {enddates} ')
         # forで回しながら予定を追加
         for i in range(0, len(startdates)):
             values['startDate'] = startdates[i]
@@ -65,6 +68,10 @@ def add_schedules(values):
                 calendarEvent['end']['date'] = generate_date(
                     values['endYear'], values['endMonth'], values['endDate']
                 )
+                print(f'''
+calendarEvent
+{calendarEvent}
+''')
                 registration(calendarEvent)
                 print('予定'+str(i+1)+'追加完了')
     else:
@@ -97,17 +104,20 @@ def add_schedules(values):
 
 
 def registration(calendarEvent):
+    print(f'''Func:registration
+引数 = {calendarEvent}''')
     config = configparser.ConfigParser()
     config.read('./setting/setting.ini')
-    SCOPES = '[' + config['DEFAULT']['scope'] + ']'
-
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
+    SCOPES = []
+    SCOPES.append(config['DEFAULT']['scope'])
+    print(f'Scope = {SCOPES}')
+    # トークン用変数初期化
     creds = None
     if os.path.exists('token.pickle'):
+        print('L116 is True')
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
+            print(f'creds = {creds}')
             # If there are no (valid) credentials available, let the user log in.
             if not creds or not creds.valid:
                 if creds and creds.expired and creds.refresh_token:
@@ -120,11 +130,11 @@ def registration(calendarEvent):
                     with open('token.pickle', 'wb') as token:
                         pickle.dump(creds, token)
 
-                service = build('calendar', 'v3', credentials=creds)
+            service = build('calendar', 'v3', credentials=creds)
+            print('予定追加開始')
+            calendarEvent = service.events().insert(
+                calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
 
-                calendarEvent = service.events().insert(
-                    calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
-
-                # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
+            # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
 if __name__ == '__main__':
     add_schedules(values)

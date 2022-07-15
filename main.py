@@ -1,5 +1,6 @@
 # Coding UTF-8
 from http.client import OK
+from unittest.mock import DEFAULT
 from xmlrpc.client import DateTime
 import PySimpleGUI as sg
 import os
@@ -27,8 +28,10 @@ check_token_expiration()
 # 設定ファイルの読み込み
 config = configparser.ConfigParser()
 config.read('./setting/setting.ini')
+SCOPES = []
+SCOPES.append(config['DEFAULT']['scope'])
+
 # SCOPES = '[' + config['DEFAULT']['scope'] + ']'
-SCOPES = ['https://www.googleapis.com/auth/calendar.events']
 
 
 def main():
@@ -118,12 +121,11 @@ def main():
                     # Save the credentials for the next run
                     with open('token.pickle', 'wb') as token:
                         pickle.dump(creds, token)
-
+                #APIと対話するためのResourceオブジェクトを構築
                 service = build('calendar', 'v3', credentials=creds)
 
                 calendarEvent = service.events().insert(
                     calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
-                # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
                 print(values)
                 window['result'].update('予定の追加は正常に終了しました！！')
                 window['summary'].update('')
