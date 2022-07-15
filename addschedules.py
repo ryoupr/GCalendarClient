@@ -32,24 +32,23 @@ values = {'summary': '0715', 'location': '日本工学院専門学校', 'descrip
 
 
 def add_schedules(values):
-    # 全日イベント用カレンダーイベント
-    calendarEvent = {
-        'summary': '',
-        'location': '',
-        'description': '',
-        'start': {
-            'date': '',
-            'timeZone': 'Japan',
-        },
-        'end': {
-            'date': '',
-            'timeZone': 'Japan',
-        },
-    }
-    #　終日イベントかどうかを検証
+    #　終日イベントかどうか検証
     if values['allDay']:
         print('終日イベント')
         # 終日イベント
+        calendarEvent = {
+            'summary': '',
+            'location': '',
+            'description': '',
+            'start': {
+                'date': '',
+                'timeZone': 'Japan',
+            },
+            'end': {
+                'date': '',
+                'timeZone': 'Japan',
+            },
+        }
         # カンマ区切りでリストを作成
         startdates = values['startDate'].split(',')
         enddates = values['endDate'].split(',')
@@ -59,6 +58,7 @@ def add_schedules(values):
         for i in range(0, len(startdates)):
             values['startDate'] = startdates[i]
             values['endDate'] = enddates[i]
+            # 書式があっているか検証
             if verify_all_day_event(values):
                 calendarEvent['summary'] = values['summary']
                 calendarEvent['location'] = values['location']
@@ -76,7 +76,6 @@ calendarEvent
     else:
         # 非終日イベント
         print('非終日イベント')
-        # 終日イベントでない場合
         calendarEvent = {
             'summary': '',
             'location': '',
@@ -100,6 +99,7 @@ calendarEvent
         calendarEvent['end']['dateTime'] = generate_datetime(
             values['endYear'], values['endMonth'], values['endDate'], values['endHour'], values['endMinute']
         )
+        registration(calendarEvent)
 
 
 def registration(calendarEvent):
