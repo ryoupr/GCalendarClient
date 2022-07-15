@@ -1,6 +1,7 @@
 from operator import truediv
 from sqlite3 import Date
 from ssl import VerifyFlags
+from time import time
 from datetime_master import *
 from calendar import calendar, isleap
 
@@ -89,6 +90,43 @@ def verify_end_date(sy, ey, sm, em, sd, ed):
         return True
     else:
         return False
+def verify_before_time(h,m):
+    try:
+        h = int(h)
+        m = int(m)
+
+        if h < 0 or m < 0:
+            return False
+
+        else:
+            return True
+    except:
+        return False
+
+def verify_behind_time(h,m,):
+    try:
+        h = int(h)
+        m = int(m)
+
+        if h > 23 or m > 59:
+            return False 
+
+        else:
+            return True
+    except:
+        return False
+
+
+
+
+def verify_event(values):
+    if verify_event:
+        if verify_start_date < verify_end_date:
+            return False
+
+    else:
+        return False
+
 
 
 def verify_all_day_event(values):
@@ -112,12 +150,12 @@ def verify_all_day_event(values):
     if False not in verify_flags.values():
         verify_flags['IS_VERIFIED_END_DATE'] = verify_end_date(
             values['startYear'], values['endYear'], values['startMonth'], values['endMonth'], values['startDate'], values['endDate'])
+
     if False not in verify_flags.values():
         return True
     else:
         return False
 
-
-
 if __name__ == '__main__':
     here_is = '検証用エリア'
+
