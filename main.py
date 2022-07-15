@@ -11,6 +11,7 @@ from googleapiclient.discovery import build
 import pickle
 import configparser
 import datetime
+from addschedules import add_schedules
 
 # Import user func
 from verify_format import *
@@ -26,7 +27,8 @@ check_token_expiration()
 # 設定ファイルの読み込み
 config = configparser.ConfigParser()
 config.read('./setting/setting.ini')
-SCOPES = '[' + config['DEFAULT']['scope'] + ']'
+# SCOPES = '[' + config['DEFAULT']['scope'] + ']'
+SCOPES = ['https://www.googleapis.com/auth/calendar.events']
 
 
 def main():
@@ -67,6 +69,8 @@ def main():
                     calendarEvent['end']['date'] = generate_date(
                         values['endYear'], values['endMonth'], values['endDate']
                     )
+                    # add_schedules(values)
+                    is_verified = True
             else:
                 # 終日イベントでない場合
                 calendarEvent = {
@@ -94,37 +98,38 @@ def main():
                 )
                 is_verified = True
             creds = None
-            # 検証結果がTrue＝OKならリクエストを送信
-            if is_verified:
-                    # The file token.pickle stores the user's access and refresh tokens, and is
-                    # created automatically when the authorization flow completes for the first
-                    # time.
-                    if os.path.exists('token.pickle'):
-                        with open('token.pickle', 'rb') as token:
-                            creds = pickle.load(token)
-                    # If there are no (valid) credentials available, let the user log in.
-                    if not creds or not creds.valid:
-                        if creds and creds.expired and creds.refresh_token:
-                            creds.refresh(Request())
-                        else:
-                            flow = InstalledAppFlow.from_client_secrets_file(
-                                'credentials.json', SCOPES)
-                            creds = flow.run_local_server(port=0)
-                        # Save the credentials for the next run
-                        with open('token.pickle', 'wb') as token:
-                            pickle.dump(creds, token)
+            # 検証結果がTrueならリクエストを送信
+            print(is_verified)
+            if True:
+                # The file token.pickle stores the user's access and refresh tokens, and is
+                # created automatically when the authorization flow completes for the first
+                # time.
+                if os.path.exists('token.pickle'):
+                    with open('token.pickle', 'rb') as token:
+                        creds = pickle.load(token)
+                # If there are no (valid) credentials available, let the user log in.
+                if not creds or not creds.valid:
+                    if creds and creds.expired and creds.refresh_token:
+                        creds.refresh(Request())
+                    else:
+                        flow = InstalledAppFlow.from_client_secrets_file(
+                            'credentials.json', SCOPES)
+                        creds = flow.run_local_server(port=0)
+                    # Save the credentials for the next run
+                    with open('token.pickle', 'wb') as token:
+                        pickle.dump(creds, token)
 
-                    service = build('calendar', 'v3', credentials=creds)
+                service = build('calendar', 'v3', credentials=creds)
 
-                    calendarEvent = service.events().insert(
-                        calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
-                    # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
-                    print(values)
-                    window['result'].update('予定の追加は正常に終了しました！！')
-                    window['summary'].update('')
-                    window['location'].update('')
-                    window['description'].update('')
-                    print('is registered')
+                calendarEvent = service.events().insert(
+                    calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
+                # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
+                print(values)
+                window['result'].update('予定の追加は正常に終了しました！！')
+                window['summary'].update('')
+                window['location'].update('')
+                window['description'].update('')
+                print('is registered')
             else:
                 window['result'].update('予定の情報にエラーがあります')
                 print('Err')

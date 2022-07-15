@@ -27,8 +27,8 @@ def include_conma(mat):
 
 
 # テスト用values
-values = {'summary': '予定連続追加テスト', 'location': '場所', 'description': '説明', 'startYear': '2022', 'startMonth': '07', 'startDate': '17,23,25', 'startHour': '',
-          'startMinute': '', 'allDay': True, 'endYear': '2022', 'endMonth': '07', 'endDate': '17,23,25', 'endHour': '', 'endMinute': ''}
+values = {'summary': '0715', 'location': '場所', 'description': '説明', 'startYear': '2022', 'startMonth': '07', 'startDate': '16,18,19', 'startHour': '',
+          'startMinute': '', 'allDay': True, 'endYear': '2022', 'endMonth': '07', 'endDate': '16,18,19', 'endHour': '', 'endMinute': ''}
 
 
 def add_schedules(values):
@@ -66,6 +66,7 @@ def add_schedules(values):
                     values['endYear'], values['endMonth'], values['endDate']
                 )
                 registration(calendarEvent)
+                print('予定'+str(i+1)+'追加完了')
     else:
         # 非終日イベント
         print('非終日イベント')
@@ -123,6 +124,7 @@ def registration(calendarEvent):
 
                 calendarEvent = service.events().insert(
                     calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
+
                 # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
 if __name__ == '__main__':
     add_schedules(values)
