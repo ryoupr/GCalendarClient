@@ -1,23 +1,9 @@
 # Coding UTF-8
-from http.client import OK
-from unittest.mock import DEFAULT
-from xmlrpc.client import DateTime
 import PySimpleGUI as sg
-import os
-from tabnanny import check
-from tracemalloc import start
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-import pickle
 import configparser
-import datetime
 from addschedules import add_schedules
 
 # Import user func
-from verify_format import *
-from generate_datetime import *
-from datetime_master import *
 from check_token import check_token_expiration
 import windowlayout
 
