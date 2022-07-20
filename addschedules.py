@@ -54,6 +54,8 @@ def add_schedules(values):
         # カンマ区切りでリストを作成
         startdates = values['startDate'].split(',')
         enddates = values['endDate'].split(',')
+        if len(startdates) != len(enddates):
+            enddates = startdates
         print(f'statdates are {startdates}')
         print(f'enddates  are {enddates} ')
         # forで回しながら予定を追加
