@@ -18,8 +18,8 @@ def check_token_expiration():
         if str(diff) != '0:00:00':
             diff = int(diff)
             print(f'前回のトークン作成から{diff*-1}日が経過しています')
-            if diff < -7:
-                print('前回作成から８日以上経過していたのでトークンを削除します')
+            if diff <= -7:
+                print('前回作成から7日以上経過していたのでトークンを削除します')
                 os.remove('./token.pickle')
                 print('削除完了')
     except:

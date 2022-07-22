@@ -19,7 +19,6 @@ from verify_format import verify_all_day_event
 import PySimpleGUI as sg
 
 
-
 def include_conma(mat):
     for i in mat:
         if i == ',':
@@ -35,7 +34,7 @@ values = {'summary': '0715', 'location': '日本工学院専門学校', 'descrip
 
 def add_schedules(values):
     #　終日イベントかどうか検証
-    if values['allDay']:
+    if values['allDay'] or values['startHour'] == '':
         print('終日イベント')
         # 終日イベント
         calendarEvent = {
@@ -112,32 +111,35 @@ def registration(calendarEvent):
     config = configparser.ConfigParser()
     config.read('./setting/setting.ini')
     SCOPES = []
-    SCOPES.append(config['DEFAULT']['scope'])
+    SCOPES.append(str(config['DEFAULT']['scope']))
     print(f'Scope = {SCOPES}')
     # トークン用変数初期化
     creds = None
+    print('トークンの存在を確認中...')
     if os.path.exists('token.pickle'):
+        print('確認できました')
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
             print(f'creds = {creds}')
-            # If there are no (valid) credentials available, let the user log in.
-            if not creds or not creds.valid:
-                if creds and creds.expired and creds.refresh_token:
-                    creds.refresh(Request())
-                else:
-                    flow = InstalledAppFlow.from_client_secrets_file(
-                        'credentials.json', SCOPES)
-                    creds = flow.run_local_server(port=0)
-                    # Save the credentials for the next run
-                    with open('token.pickle', 'wb') as token:
-                        pickle.dump(creds, token)
+    else:
+        print('トークンの存在を確認できませんでした')
+        print('認証を行いトークンを生成してください')
+        flow = InstalledAppFlow.from_client_secrets_file(
+            'credentials.json', SCOPES)
+        creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
 
-            service = build('calendar', 'v3', credentials=creds)
-            print('予定追加開始')
-            calendarEvent = service.events().insert(
-                calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
-            print('予定追加完了')
+            # Save the credentials for the next run
+    with open('token.pickle', 'wb') as token:
+        pickle.dump(creds, token)
 
-            # calendarEvent = service.events().insert(calendarId='ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com',body=calendarEvent).execute()
+    service = build('calendar', 'v3', credentials=creds)
+    print('予定追加開始')
+    calendarEvent = service.events().insert(
+        calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
+    print('予定追加完了')
+
 if __name__ == '__main__':
     add_schedules(values)
