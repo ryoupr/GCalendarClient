@@ -1,7 +1,10 @@
 from operator import truediv
+from re import T
 from sqlite3 import Date
 from ssl import VerifyFlags
 from time import time
+
+from rsa import verify
 from datetime_master import *
 from calendar import calendar, isleap
 
@@ -90,42 +93,41 @@ def verify_end_date(sy, ey, sm, em, sd, ed):
         return True
     else:
         return False
-def verify_before_time(h,m):
+def verify_before_time(sy,sm,sd,sh,smi):
     try:
-        h = int(h)
-        m = int(m)
+        sy,sm,sd,sh,smi = int(sy), int(sm), int(sd), int(sh), int(smi)
 
-        if h < 0 or m < 0:
+        if  sh > 23 or smi > 59 or sh < 0 or smi < 0 :
             return False
-
         else:
             return True
     except:
         return False
 
-def verify_behind_time(h,m,):
+def verify_behind_time(ey,em,ed,eh,emi):
     try:
-        h = int(h)
-        m = int(m)
-
-        if h > 23 or m > 59:
+        ey,em,ed,eh,emi = int(ey), int(em), int(ed), int(eh), int(emi)
+        if eh > 23 or emi > 59 or eh < 0 or em < 0 :
             return False 
-
         else:
             return True
     except:
         return False
-
-
-
 
 def verify_event(values):
-    if verify_event:
-        if verify_start_date < verify_end_date:
-            return False
+    if verify_before_time(values = {'start_year':'2022','start_month':'7','start_day':'22','start_hour':'10','start_minute':'00'}):
+        if verify_behind_time(values = {'end_year':'2022','end_month':'7','end_day':'23','end_hour':'20','end_minute':'00'}):
+            if verify_before_time['start_day'] > verify_behind_time['end_day'] :
+                return False
+            if  verify_before_time['start_day'] == verify_behind_time['end_day'] and verify_before_time['start_hour'] > verify_behind_time['end_hour']:
 
+                return False
+            if verify_before_time['start_hour'] == verify_behind_time['end_hour'] and    verify_before_time['start_minute'] > verify_behind_time['end_minute']:
+                return False
     else:
-        return False
+        return True
+
+
 
 
 
@@ -159,3 +161,4 @@ def verify_all_day_event(values):
 if __name__ == '__main__':
     here_is = '検証用エリア'
 
+print(verify_event)
