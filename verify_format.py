@@ -93,42 +93,43 @@ def verify_end_date(sy, ey, sm, em, sd, ed):
         return True
     else:
         return False
-def verify_before_time(sy,sm,sd,sh,smi):
-    try:
-        sy,sm,sd,sh,smi = int(sy), int(sm), int(sd), int(sh), int(smi)
 
-        if  sh > 23 or smi > 59 or sh < 0 or smi < 0 :
+
+def verify_before_time(sy, sm, sd, sh, smi):
+    try:
+        sy, sm, sd, sh, smi = int(sy), int(sm), int(sd), int(sh), int(smi)
+
+        if sh > 23 or smi > 59 or sh < 0 or smi < 0:
             return False
         else:
             return True
     except:
         return False
 
-def verify_behind_time(ey,em,ed,eh,emi):
+
+def verify_behind_time(ey, em, ed, eh, emi):
     try:
-        ey,em,ed,eh,emi = int(ey), int(em), int(ed), int(eh), int(emi)
-        if eh > 23 or emi > 59 or eh < 0 or em < 0 :
-            return False 
+        ey, em, ed, eh, emi = int(ey), int(em), int(ed), int(eh), int(emi)
+        if eh > 23 or emi > 59 or eh < 0 or em < 0:
+            return False
         else:
             return True
     except:
         return False
 
+
 def verify_event(values):
-    if verify_before_time(values = {'start_year':'2022','start_month':'7','start_day':'22','start_hour':'10','start_minute':'00'}):
-        if verify_behind_time(values = {'end_year':'2022','end_month':'7','end_day':'23','end_hour':'20','end_minute':'00'}):
-            if verify_before_time['start_day'] > verify_behind_time['end_day'] :
+    if verify_before_time(values['startYear'], values['startMonth'], values['startDate'], values['startHour'], values['startMinute']):
+        if verify_behind_time(values['endYear'], values['endMonth'], values['endDate'], values['endHour'], values['endMinute']):
+            if verify_before_time['start_day'] > verify_behind_time['end_day']:
                 return False
-            if  verify_before_time['start_day'] == verify_behind_time['end_day'] and verify_before_time['start_hour'] > verify_behind_time['end_hour']:
+            if verify_before_time['start_day'] == verify_behind_time['end_day'] and verify_before_time['start_hour'] > verify_behind_time['end_hour']:
 
                 return False
-            if verify_before_time['start_hour'] == verify_behind_time['end_hour'] and    verify_before_time['start_minute'] > verify_behind_time['end_minute']:
+            if verify_before_time['start_hour'] == verify_behind_time['end_hour'] and verify_before_time['start_minute'] > verify_behind_time['end_minute']:
                 return False
     else:
         return True
-
-
-
 
 
 def verify_all_day_event(values):
@@ -158,7 +159,10 @@ def verify_all_day_event(values):
     else:
         return False
 
+
 if __name__ == '__main__':
     here_is = '検証用エリア'
 
-print(verify_event)
+    values = {'summary': '0715', 'location': '日本工学院専門学校', 'description': '卒業制作製作過程でのテストです', 'startYear': '2022', 'startMonth': '07', 'startDate': '16,18,19',
+              'startHour': '', 'startMinute': '', 'allDay': True, 'endYear': '2022', 'endMonth': '07', 'endDate': '16,18,19', 'endHour': '', 'endMinute': ''}
+    print(verify_event(values))
