@@ -6,6 +6,7 @@ from addschedules import add_schedules
 # Import user func
 from check_token import check_token_expiration
 import windowlayout
+from multipleimputcalendar import *
 
 # tiken.pickleが作成から一週間経過したら削除
 check_token_expiration()
@@ -28,6 +29,10 @@ def main():
         # windowが閉じられたり、キャンセルボタンが押されたときプログラムを終了
         if event == sg.WIN_CLOSED or event == 'Cancell':
             break
+
+        if  event == 'Multiplecalendar':
+            dates = get_dates()
+            print(dates)
         # 登録ボタンが押された時の処理
         if event == 'Submit':
             add_schedules(values)
