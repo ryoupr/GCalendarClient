@@ -189,6 +189,7 @@ def registration(calendarEvent):
         pickle.dump(creds, token)
 
     service = build('calendar', 'v3', credentials=creds)
+    print(calendarEvent)
     print('予定追加開始')
     calendarEvent = service.events().insert(
         calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
