@@ -19,8 +19,8 @@ def get_dates(selected=set()):
                 window[('Date', row, col)
                        ].metadata = False if m == month else 'gray'
 
-    months_in_year = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-                      'August', 'September', 'October', 'November', 'December']
+    months_in_year = ['１月', '２月', '３月', '４月', '５月', '６月', '７月',
+                      '８月', '９月', '１０月', '１１月', '１２月']
 
     today = datetime.datetime.now()
     year, month, day = today.year, today.month, today.day
@@ -48,7 +48,7 @@ def get_dates(selected=set()):
          sg.Text(sg.SYMBOL_UP, size=3, justification='center', background_color='green', enable_events=True, key='Month_UP')],
         [sg.Text()],
         [sg.Text(weekday, size=4, justification='center')
-            for weekday in ('Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa')]]
+            for weekday in ('日', '月', '火', '水', '木', '金', '土')]]
 
     weeks = []
     for row in range(6):
@@ -101,6 +101,7 @@ def get_dates(selected=set()):
 
     window.close()
     return list(selected)
+
 
 if __name__ == '__main__':
     print(get_dates())

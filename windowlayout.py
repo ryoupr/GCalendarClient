@@ -20,7 +20,7 @@ windowlayout = [
     [sg.Text('説明', size=(INPUTBOX)), sg.InputText(
         '', size=(98), key=('description'))],
     [sg.Text('開始年月日', size=(INPUTBOX)), sg.InputText(this_year(), size=(DATETIMEBOX), key='startYear'), sg.Text('年'),
-     sg.InputText(this_month(), size=(DATETIMEBOX), key=('startMonth')), sg.Text('月'), sg.InputText(today(), size=(DATETIMEBOX), key=('startDate')), sg.Text('日'), sg.Button('カレンダーから選択', key='Multiplecalendar', size=(15, 2))],
+     sg.InputText(this_month(), size=(DATETIMEBOX), key=('startMonth')), sg.Text('月'), sg.InputText(today(), size=(DATETIMEBOX), key=('startDate')), sg.Text('日'), sg.Button('カレンダーから選択', key='Multiplecalendar', size=(15, 1))],
     [sg.Text('開始時間', size=(INPUTBOX)),
      sg.InputText('', size=(DATETIMEBOX), key=('startHour')),
      sg.Text('時'),
