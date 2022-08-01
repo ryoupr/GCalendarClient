@@ -10,6 +10,12 @@
 日付欄をカンマ区切りで入力することで一括で複数日の不規則な予定を簡単に登録することができます。
 これらは時間でも同様です。
 
+## カレンダーからグラフィカルに指定することもできます
+
+![カレンダーから選択協調画面](https://user-images.githubusercontent.com/55190661/182070202-4d5da4ec-0918-4592-82cc-11aa1fc49c01.png)
+![image](https://user-images.githubusercontent.com/55190661/182070278-1c83f738-ac73-4f0d-a474-a7d1aa2e16ae.png)
+カレンダーから選択ボタンを押下することで、グラフィカルに予定を追加する日を指定することができます。
+
 ## 登録先カレンダーの変更
 ![image](https://user-images.githubusercontent.com/55190661/182026178-e9cba667-cd13-4947-871a-456f2f93efc1.png)
 
