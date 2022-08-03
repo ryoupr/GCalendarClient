@@ -22,7 +22,7 @@ SCOPES.append(config['DEFAULT']['scope'])
 
 def main():
     # GUIWindowを出力
-    window = sg.Window('GoogleCalendarに予定を追加',
+    window = sg.Window('GCalendarClient',
                        windowlayout.windowlayout, resizable=True)
     # イベント待機状態へ移行
     while True:
