@@ -187,13 +187,10 @@ calendarEvent
 
 
 def registration(calendarEvent):
-    print(f'''Func:registration
-引数 = {calendarEvent}''')
     config = configparser.ConfigParser()
     config.read('./setting/setting.ini')
     SCOPES = []
     SCOPES.append(str(config['DEFAULT']['scope']))
-    print(f'Scope = {SCOPES}')
     # トークン用変数初期化
     creds = None
     print('トークンの存在を確認中...')
