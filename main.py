@@ -1,11 +1,11 @@
 # Coding UTF-8
 import PySimpleGUI as sg
 import configparser
-from addschedules import add_schedules
-from os import sys
+import os
 
 # Import user func
 from check_token import check_token_expiration
+from addschedules import add_schedules
 from windowlayout import makewindow
 from multipleinputcalendar import *
 from exchangeformat import *
@@ -22,6 +22,8 @@ theme_list = theme_list.theme_list
 # If modifying these scopes, delete the file token.pickle.
 # 設定ファイルの読み込み
 config = configparser.ConfigParser()
+# path = os.path.join(os.path.dirname(__file__), './settings.ini')
+# config.read(path)
 config.read('./setting.ini')
 SCOPES = []
 SCOPES.append(config['DEFAULT']['scope'])
@@ -62,7 +64,7 @@ def main():
         if event in theme_lineup:
             print(f'Selected theme = {event}')
             config['DEFAULT']['theme'] = event
-            with open('./setting.ini','w') as configfile:
+            with open('./setting.ini', 'w') as configfile:
                 config.write(configfile)
             window.close()
             window = makewindow()
@@ -70,7 +72,6 @@ def main():
         if event == 'ThemePreview':
             sg.theme_previewer()
     window.close()
-    sys.exit()
 
 
 if __name__ == '__main__':
