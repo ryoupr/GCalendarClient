@@ -20,18 +20,6 @@ from verify_format import verify_all_day_event
 import PySimpleGUI as sg
 
 
-def include_conma(mat):
-    for i in mat:
-        if i == ',':
-            return True
-    else:
-        return False
-
-
-# テスト用values
-values = {'summary': '0715', 'location': '日本工学院専門学校', 'description': '卒業制作製作過程でのテストです', 'startYear': '2022', 'startMonth': '07', 'startDate': '16,18,19', 'startHour': '',
-          'startMinute': '', 'allDay': True, 'endYear': '2022', 'endMonth': '07', 'endDate': '16,18,19', 'endHour': '', 'endMinute': ''}
-
 
 def add_schedules(values):
     #　終日イベントかどうか検証
@@ -52,15 +40,27 @@ def add_schedules(values):
             },
         }
         # カンマ区切りでリストを作成
+        startyears = values['startYear'].split(',')
+        endyears = values['endYear'].split(',')
+        startmonths = values['startMonth'].split(',')
+        endmonths = values['endMonth'].split(',')
         startdates = values['startDate'].split(',')
         enddates = values['endDate'].split(',')
-        print(f'statdates are {startdates}')
-        print(f'enddates  are {enddates} ')
+        print(f'startyears = {startyears}')
+        print(f'endyears  = {endyears} ')
+        print(f'startmonths = {startmonths}')
+        print(f'endmonths  = {endmonths} ')
+        print(f'startdates = {startdates}')
+        print(f'enddates  = {enddates} ')
         # 開始日・終了日の要素数が違ったら終了日を開始日と同一とする
         if len(startdates) != len(enddates):
             enddates = startdates
         # forで回しながら予定を追加
         for i in range(0, len(startdates)):
+            values['startYear'] = startyears[i]
+            values['endYear'] = endyears[i]
+            values['startMonth'] = startmonths[i]
+            values['endMonth'] = endmonths[i]
             values['startDate'] = startdates[i]
             values['endDate'] = enddates[i]
             # 書式があっているか検証
@@ -95,12 +95,20 @@ calendarEvent
             },
         }
         # 開始日・終了日・開始時刻(時・分)・終了時刻のリスト作成
+        startyears = values['startYear'].split(',')
+        endyears = values['endYear'].split(',')
+        startmonths = values['startMonth'].split(',')
+        endmonths = values['endMonth'].split(',')
         startdates = values['startDate'].split(',')
         enddates = values['endDate'].split(',')
         starthours = values['startHour'].split(',')
         startminutes = values['startMinute'].split(',')
         endhours = values['endHour'].split(',')
         endminutes = values['endMinute'].split(',')
+        print(f'startyears = {startyears}')
+        print(f'endyears  = {endyears} ')
+        print(f'startmonths = {startmonths}')
+        print(f'endmonths  = {endmonths} ')
         print(f'statdates are {startdates}')
         print(f'enddates  are {enddates} ')
         print(f'starthours  are {starthours} ')
@@ -112,6 +120,12 @@ calendarEvent
         if len(startdates) == len(enddates) == len(starthours) == len(startminutes) == len(endhours) == len(endminutes):
             for i in range(0, len(startdates)):
                 # todo valuesの内容検証を！！
+                values['startYear'] = startyears[i]
+                values['endYear'] = endyears[i]
+                values['startMonth'] = startmonths[i]
+                values['endMonth'] = endmonths[i]
+                values['startDate'] = startdates[i]
+                values['endDate'] = enddates[i]
                 calendarEvent['summary'] = values['summary']
                 calendarEvent['location'] = values['location']
                 calendarEvent['description'] = values['description']
@@ -123,6 +137,13 @@ calendarEvent
                 registration(calendarEvent)
         elif len(starthours) == 1 and len(startdates) >= 1:
             for i in range(0, len(startdates)):
+                values['startYear'] = startyears[i]
+                values['endYear'] = endyears[i]
+                values['startMonth'] = startmonths[i]
+                values['endMonth'] = endmonths[i]
+                values['startDate'] = startdates[i]
+                values['endDate'] = enddates[i]
+
                 calendarEvent['summary'] = values['summary']
                 calendarEvent['location'] = values['location']
                 calendarEvent['description'] = values['description']
@@ -134,6 +155,13 @@ calendarEvent
                 registration(calendarEvent)
         elif len(startdates) == 1 and len(starthours) >= 1:
             for i in range(0, len(starthours)):
+                values['startYear'] = startyears[i]
+                values['endYear'] = endyears[i]
+                values['startMonth'] = startmonths[i]
+                values['endMonth'] = endmonths[i]
+                values['startDate'] = startdates[i]
+                values['endDate'] = enddates[i]
+
                 calendarEvent['summary'] = values['summary']
                 calendarEvent['location'] = values['location']
                 calendarEvent['description'] = values['description']
@@ -159,13 +187,10 @@ calendarEvent
 
 
 def registration(calendarEvent):
-    print(f'''Func:registration
-引数 = {calendarEvent}''')
     config = configparser.ConfigParser()
     config.read('./setting/setting.ini')
     SCOPES = []
     SCOPES.append(str(config['DEFAULT']['scope']))
-    print(f'Scope = {SCOPES}')
     # トークン用変数初期化
     creds = None
     print('トークンの存在を確認中...')
@@ -189,6 +214,7 @@ def registration(calendarEvent):
         pickle.dump(creds, token)
 
     service = build('calendar', 'v3', credentials=creds)
+    print(calendarEvent)
     print('予定追加開始')
     calendarEvent = service.events().insert(
         calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
@@ -196,4 +222,5 @@ def registration(calendarEvent):
 
 
 if __name__ == '__main__':
-    add_schedules(values)
+    # add_schedules(values)
+    pass

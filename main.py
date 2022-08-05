@@ -6,6 +6,8 @@ from addschedules import add_schedules
 # Import user func
 from check_token import check_token_expiration
 import windowlayout
+from multipleimputcalendar import *
+from exchangeformat import *
 
 # tiken.pickleが作成から一週間経過したら削除
 check_token_expiration()
@@ -20,7 +22,7 @@ SCOPES.append(config['DEFAULT']['scope'])
 
 def main():
     # GUIWindowを出力
-    window = sg.Window('GoogleCalendarに予定を追加',
+    window = sg.Window('GCalendarClient',
                        windowlayout.windowlayout, resizable=True)
     # イベント待機状態へ移行
     while True:
@@ -28,6 +30,18 @@ def main():
         # windowが閉じられたり、キャンセルボタンが押されたときプログラムを終了
         if event == sg.WIN_CLOSED or event == 'Cancell':
             break
+
+        if event == 'Multiplecalendar':
+            dates = get_dates()
+            print(dates)
+            years, months, dates = exchangeFormat(dates)
+            window['startYear'].update(years)
+            window['endYear'].update(years)
+            window['startMonth'].update(months)
+            window['endMonth'].update(months)
+            window['startDate'].update(dates)
+            window['endDate'].update(dates)
+            print(values)
         # 登録ボタンが押された時の処理
         if event == 'Submit':
             add_schedules(values)
