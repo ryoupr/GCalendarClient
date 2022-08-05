@@ -28,7 +28,7 @@ def main():
     while True:
         event, values = window.read()
         # windowが閉じられたり、キャンセルボタンが押されたときプログラムを終了
-        if event == sg.WIN_CLOSED or event == 'Cancell':
+        if event == sg.WIN_CLOSED or event == 'Cancell' or event == 'Exit':
             break
 
         if event == 'Multiplecalendar':
