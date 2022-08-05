@@ -21,4 +21,4 @@
 ![image](https://user-images.githubusercontent.com/55190661/182026178-e9cba667-cd13-4947-871a-456f2f93efc1.png)
 
 登録先のカレンダーは setting.ini の calendarID を変更することで変更できます。
-カレンダー ID は GoogleCalendar の設定画面から取得することができます。（デフォルトではテスト用のカレンダー(https://calendar.google.com/calendar/u/0?cid=a2UzN2Qxb2Jrb2E5aWhiamdobmM1MnVpNTRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)に接続するように設定されています）
+カレンダー ID は GoogleCalendar の設定画面から取得することができます。（デフォルトではテスト用のカレンダー(https://calendar.google.com/calendar/u/0?cid=a2UzN2Qxb2Jrb2E5aWhiamdobmM1MnVpNTRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)  に接続するように設定されています）
