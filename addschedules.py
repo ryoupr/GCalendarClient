@@ -188,7 +188,7 @@ calendarEvent
 
 def registration(calendarEvent):
     config = configparser.ConfigParser()
-    config.read('./setting/setting.ini')
+    config.read('./setting.ini')
     SCOPES = []
     SCOPES.append(str(config['DEFAULT']['scope']))
     # トークン用変数初期化

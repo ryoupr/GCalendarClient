@@ -58,8 +58,8 @@ def get_dates(selected=set()):
             week.append(
                 sg.Text(d, size=4, justification='center',
                         text_color=white if m == month else gray,
-                        background_color='blue' if (year, m, int(
-                            d)) in selected else sg.theme_background_color(),
+                        background_color='blue' if (year, m,
+                                                    d) in selected else sg.theme_background_color(),
                         enable_events=True,
                         metadata=False if m == month else 'gray', key=('Date', row, col)))
         weeks.append(week)

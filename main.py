@@ -7,7 +7,7 @@ from os import sys
 # Import user func
 from check_token import check_token_expiration
 from windowlayout import makewindow
-from multipleimputcalendar import *
+from multipleinputcalendar import *
 from exchangeformat import *
 import theme_list
 
@@ -22,7 +22,7 @@ theme_list = theme_list.theme_list
 # If modifying these scopes, delete the file token.pickle.
 # 設定ファイルの読み込み
 config = configparser.ConfigParser()
-config.read('./setting/setting.ini')
+config.read('./setting.ini')
 SCOPES = []
 SCOPES.append(config['DEFAULT']['scope'])
 
@@ -62,7 +62,7 @@ def main():
         if event in theme_lineup:
             print(f'Selected theme = {event}')
             config['DEFAULT']['theme'] = event
-            with open('./setting/setting.ini','w') as configfile:
+            with open('./setting.ini','w') as configfile:
                 config.write(configfile)
             window.close()
             window = makewindow()

@@ -11,7 +11,7 @@ def makewindow():
     theme_list = theme_list.theme_list
 
     config = configparser.ConfigParser()
-    config.read('./setting/setting.ini')
+    config.read('./setting.ini')
     sg.theme(config['DEFAULT']['theme'])
 
     INPUTBOX = 9
