@@ -25,9 +25,12 @@ def generate_date(year, month, date):
     return date
 
 
+
+
+
 if __name__ == '__main__':
     print('Functions return.')
     print('this_year     '+str(this_year()))
     print('this_month    '+str(this_month()))
     print('today        '+str(today()))
-    print('generate_date '+generate_date('2000','07','10'))
+    print('generate_date '+generate_date('2000', '07', '10'))
