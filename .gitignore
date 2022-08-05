@@ -162,6 +162,8 @@ cython_debug/
 pyvenv*
 requirements.txt
 *.pickle
+*.pkl
+**/*.pkl
 
 Lib/
 Scripts/
