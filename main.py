@@ -49,6 +49,8 @@ def main():
             window['location'].update('')
             window['description'].update('')
             window['result'].update('予定の追加が完了しました')
+        if event == 'Test':
+            print('Pushed file/test button')
     window.close()
 
 

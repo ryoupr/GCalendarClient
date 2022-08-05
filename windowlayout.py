@@ -12,8 +12,8 @@ BUTTONWIDTH = 50
 BUTTONHAIGHT = 2
 DATETIMEBOX = 4
 # PySimpleGUIレイアウト設定
-windowlayout = [[sg.MenubarCustom([['File', ['Exit']], ['Edit', ['Edit Me','2' ]]])],
-    [sg.Text('概要', size=(INPUTBOX)),
+windowlayout = [[sg.MenubarCustom([['File', ['Test']], ['Edit', ['Test']]])],
+                [sg.Text('概要', size=(INPUTBOX)),
                  sg.InputText('', size=(98), key='summary')],
                 [sg.Text('場所', size=(INPUTBOX)), sg.InputText(
                     '', size=(98), key='location')],
