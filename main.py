@@ -5,12 +5,17 @@ from addschedules import add_schedules
 
 # Import user func
 from check_token import check_token_expiration
-import windowlayout
+from windowlayout import makewindow
 from multipleimputcalendar import *
 from exchangeformat import *
+import theme_list
 
 # tiken.pickleが作成から一週間経過したら削除
 check_token_expiration()
+
+
+theme_lineup = sg.theme_list()
+theme_list = theme_list.theme_list
 
 # If modifying these scopes, delete the file token.pickle.
 # 設定ファイルの読み込み
@@ -22,8 +27,9 @@ SCOPES.append(config['DEFAULT']['scope'])
 
 def main():
     # GUIWindowを出力
-    window = sg.Window('GCalendarClient',
-                       windowlayout.windowlayout, resizable=True)
+    # window = sg.Window('GCalendarClient',
+    #                    windowlayout.windowlayout, resizable=True)
+    window = makewindow()
     # イベント待機状態へ移行
     while True:
         event, values = window.read()
@@ -49,8 +55,17 @@ def main():
             window['location'].update('')
             window['description'].update('')
             window['result'].update('予定の追加が完了しました')
-        if event == 'Test':
-            print('Pushed file/test button')
+
+        if event in theme_lineup:
+            print(f'Selected theme = {event}')
+            config['DEFAULT']['theme'] = event
+            with open('./setting/setting.ini','w') as configfile:
+                config.write(configfile)
+            window.close()
+            window = makewindow()
+
+        if event == 'ThemePreview':
+            sg.theme_previewer()
     window.close()
 
 
