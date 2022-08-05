@@ -2,6 +2,7 @@
 import PySimpleGUI as sg
 import configparser
 from addschedules import add_schedules
+from os import sys
 
 # Import user func
 from check_token import check_token_expiration
@@ -9,6 +10,7 @@ from windowlayout import makewindow
 from multipleimputcalendar import *
 from exchangeformat import *
 import theme_list
+
 
 # tiken.pickleが作成から一週間経過したら削除
 check_token_expiration()
@@ -48,6 +50,7 @@ def main():
             window['startDate'].update(dates)
             window['endDate'].update(dates)
             print(values)
+
         # 登録ボタンが押された時の処理
         if event == 'Submit':
             add_schedules(values)
@@ -67,6 +70,7 @@ def main():
         if event == 'ThemePreview':
             sg.theme_previewer()
     window.close()
+    sys.exit()
 
 
 if __name__ == '__main__':
