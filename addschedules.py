@@ -12,13 +12,11 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import pickle
-import configparser
 import datetime
 from generate_datetime import *
 from datetime_master import *
 from verify_format import verify_all_day_event
 import PySimpleGUI as sg
-
 
 
 def add_schedules(values):
@@ -187,10 +185,10 @@ calendarEvent
 
 
 def registration(calendarEvent):
-    config = configparser.ConfigParser()
-    config.read('./setting.ini')
+    config = sg.UserSettings(
+        './settings.ini', use_config_file=True,  convert_bools_and_none=True)
     SCOPES = []
-    SCOPES.append(str(config['DEFAULT']['scope']))
+    SCOPES.append(str(config['USER SETTING']['scope']))
     # トークン用変数初期化
     creds = None
     print('トークンの存在を確認中...')
@@ -217,7 +215,7 @@ def registration(calendarEvent):
     print(calendarEvent)
     print('予定追加開始')
     calendarEvent = service.events().insert(
-        calendarId=config['CALENDAR']['calendarID'], body=calendarEvent).execute()
+        calendarId=config['CALENDAR']['calendarid'], body=calendarEvent).execute()
     print('予定追加完了')
 
 

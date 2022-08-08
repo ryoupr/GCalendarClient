@@ -1,7 +1,5 @@
 # Coding UTF-8
 import PySimpleGUI as sg
-import configparser
-import os
 
 # Import user func
 from check_token import check_token_expiration
@@ -21,12 +19,11 @@ theme_list = theme_list.theme_list
 
 # If modifying these scopes, delete the file token.pickle.
 # 設定ファイルの読み込み
-config = configparser.ConfigParser()
-# path = os.path.join(os.path.dirname(__file__), './settings.ini')
-# config.read(path)
-config.read('./setting.ini')
+config = sg.UserSettings('./settings.ini', use_config_file=True,convert_bools_and_none=True)
+
+# SCOPESを定義
 SCOPES = []
-SCOPES.append(config['DEFAULT']['scope'])
+SCOPES.append(config['USER SETTING']['scope'])
 
 
 def main():
@@ -63,9 +60,7 @@ def main():
 
         if event in theme_lineup:
             print(f'Selected theme = {event}')
-            config['DEFAULT']['theme'] = event
-            with open('./setting.ini', 'w') as configfile:
-                config.write(configfile)
+            config['USER SETTING']['theme'] = event
             window.close()
             window = makewindow()
 

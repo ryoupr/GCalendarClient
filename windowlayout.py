@@ -1,18 +1,14 @@
 from datetime_master import *
 import PySimpleGUI as sg
-import configparser
-import theme_list
-
-
 
 
 def makewindow():
     import theme_list
     theme_list = theme_list.theme_list
 
-    config = configparser.ConfigParser()
-    config.read('./setting.ini')
-    sg.theme(config['DEFAULT']['theme'])
+    config = sg.UserSettings('./settings.ini', use_config_file=True,
+                             convert_bools_and_none=True)
+    sg.theme(config['USER SETTING']['theme'])
 
     INPUTBOX = 9
     BUTTONWIDTH = 50
