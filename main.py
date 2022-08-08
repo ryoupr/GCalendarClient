@@ -8,6 +8,7 @@ from windowlayout import makewindow
 from multipleinputcalendar import *
 from exchangeformat import *
 import theme_list
+import webbrowser
 
 
 # tiken.pickleが作成から一週間経過したら削除
@@ -19,7 +20,8 @@ theme_list = theme_list.theme_list
 
 # If modifying these scopes, delete the file token.pickle.
 # 設定ファイルの読み込み
-config = sg.UserSettings('./settings.ini', use_config_file=True,convert_bools_and_none=True)
+config = sg.UserSettings(
+    './settings.ini', use_config_file=True, convert_bools_and_none=True)
 
 # SCOPESを定義
 SCOPES = []
@@ -66,6 +68,10 @@ def main():
 
         if event == 'ThemePreview':
             sg.theme_previewer()
+
+        if event == 'How To':
+            webbrowser.open('https://github.com/ryoupr/GCalendarClient')
+
     window.close()
 
 
