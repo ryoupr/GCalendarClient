@@ -22,7 +22,6 @@ import PySimpleGUI as sg
 def add_schedules(values):
     #　終日イベントかどうか検証
     if values['allDay'] or values['startHour'] == '':
-        print('終日イベント')
         # 終日イベント
         calendarEvent = {
             'summary': '',

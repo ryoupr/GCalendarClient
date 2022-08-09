@@ -1,7 +1,7 @@
 # Coding UTF-8
+from email.policy import strict
+from turtle import width
 import PySimpleGUI as sg
-
-# Import user func
 from check_token import check_token_expiration
 from addschedules import add_schedules
 from windowlayout import makewindow
@@ -9,6 +9,7 @@ from multipleinputcalendar import *
 from exchangeformat import *
 import theme_list
 import webbrowser
+import json
 
 
 # tiken.pickleが作成から一週間経過したら削除
@@ -29,6 +30,13 @@ SCOPES.append(config['USER SETTING']['scope'])
 
 
 def main():
+    with open('./ScheduleTemps.json', 'r', encoding='utf-8') as j:
+        temps = json.load(j, strict=False)
+    tempkeys = []
+    for i in temps['scheduletemps'].keys():
+        tempkeys.append(i)
+    print(tempkeys)
+
     # GUIWindowを出力
     # window = sg.Window('GCalendarClient',
     #                    windowlayout.windowlayout, resizable=True)
@@ -71,6 +79,42 @@ def main():
 
         if event == 'How To':
             webbrowser.open('https://github.com/ryoupr/GCalendarClient')
+
+        if event == 'テンプレートとして登録':
+            # jsonファイルに今の予定内容を書き込み
+            if values['summary'] != '':
+                scheduleinfo = {}
+                scheduleinfo['summary'] = values['summary']
+                scheduleinfo['location'] = values['location']
+                scheduleinfo['description'] = values['description']
+                scheduleinfo['starthour'] = values['startHour']
+                scheduleinfo['startminute'] = values['startMinute']
+                scheduleinfo['endhour'] = values['endHour']
+                scheduleinfo['endminute'] = values['endMinute']
+                scheduleinfo['allday'] = str(values['allDay'])
+                temps['scheduletemps'][values['summary']] = scheduleinfo
+
+                print(temps)
+
+                with open('./ScheduleTemps.json', 'w', encoding='utf-8') as j:
+                    json.dump(temps, j)
+
+
+        if values['buttonmenu'] in tempkeys:
+            print(temps)
+            temp = temps['scheduletemps'][values['buttonmenu']]
+            print(temp)
+            window['summary'].update(temp['summary'])
+            window['location'].update(temp['location'])
+            window['description'].update(temp['description'])
+            window['startHour'].update(temp['starthour'])
+            window['startMinute'].update(temp['startminute'])
+            window['endHour'].update(temp['endhour'])
+            window['endMinute'].update(temp['endminute'])
+            if temp['allday'] == 'True':
+                window['allDay'].update(True)
+            else:
+                window['allDay'].update(False)
 
     window.close()
 
