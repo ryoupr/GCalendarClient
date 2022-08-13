@@ -28,7 +28,7 @@ def makewindow():
     windowlayout = [
         [sg.MenubarCustom(
             [
-                ['File', ['テンプレートとして登録', 'Exit']],
+                ['&File', ['テンプレートとして登録', '&Exit']],
                 ['Edit', ['Theme', [theme_list], 'ThemePreview']],
                 ['Help', ['How To']]
             ]

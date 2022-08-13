@@ -44,7 +44,7 @@ def main():
     tempkeys = []
     for i in temps['scheduletemps'].keys():
         tempkeys.append(i)
-    print(tempkeys)
+    print(f'Registrated temps = {tempkeys}')
 
     # GUIWindowを出力
     # window = sg.Window('GCalendarClient',
@@ -59,7 +59,7 @@ def main():
 
         if event == 'Multiplecalendar':
             dates = get_dates()
-            print(dates)
+            print(f'Selected dates = {dates}')
             years, months, dates = exchangeFormat(dates)
             window['startYear'].update(years)
             window['endYear'].update(years)
@@ -67,7 +67,6 @@ def main():
             window['endMonth'].update(months)
             window['startDate'].update(dates)
             window['endDate'].update(dates)
-            print(values)
 
         # 登録ボタンが押された時の処理
         if event == 'Submit':
@@ -103,15 +102,11 @@ def main():
                 scheduleinfo['allday'] = str(values['allDay'])
                 temps['scheduletemps'][values['summary']] = scheduleinfo
 
-                print(temps)
-
                 with open('./ScheduleTemps.json', 'w', encoding='utf-8') as j:
                     json.dump(temps, j, indent=4)
 
         if values['buttonmenu'] in tempkeys:
-            print(temps)
             temp = temps['scheduletemps'][values['buttonmenu']]
-            print(temp)
             window['summary'].update(temp['summary'])
             window['location'].update(temp['location'])
             window['description'].update(temp['description'])
