@@ -7,30 +7,39 @@ from addschedules import add_schedules
 from windowlayout import makewindow
 from multipleinputcalendar import *
 from exchangeformat import *
-import theme_list
 import webbrowser
 import json
-
-
-# tiken.pickleが作成から一週間経過したら削除
-check_token_expiration()
-
-
-theme_lineup = sg.theme_list()
-theme_list = theme_list.theme_list
-
-# If modifying these scopes, delete the file token.pickle.
-# 設定ファイルの読み込み
-config = sg.UserSettings(
-    './settings.ini', use_config_file=True, convert_bools_and_none=True)
-
-# SCOPESを定義
-SCOPES = []
-SCOPES.append(config['USER SETTING']['scope'])
+import os
 
 
 def main():
-    with open('./ScheduleTemps.json', 'r', encoding='utf-8') as j:
+    import theme_list
+    # tiken.pickleが作成から一週間経過したら削除
+    check_token_expiration()
+
+    theme_lineup = sg.theme_list()
+    theme_list = theme_list.theme_list
+
+    # If modifying these scopes, delete the file token.pickle.
+    # 設定ファイルの読み込み
+    config = sg.UserSettings(
+        './settings.ini', use_config_file=True, convert_bools_and_none=True)
+
+    # SCOPESを定義
+    SCOPES = []
+    SCOPES.append(config['USER SETTING']['scope'])
+
+    path = './ScheduleTemps.json'
+    if os.path.exists(path):
+        pass
+    else:
+        json_temp = {
+            'scheduletemps': {}
+        }
+        with open(path, 'w', encoding='utf-8') as j:
+            json.dump(json_temp, j, indent=4)
+
+    with open(path, 'r', encoding='utf-8') as j:
         temps = json.load(j, strict=False)
     tempkeys = []
     for i in temps['scheduletemps'].keys():
@@ -97,8 +106,7 @@ def main():
                 print(temps)
 
                 with open('./ScheduleTemps.json', 'w', encoding='utf-8') as j:
-                    json.dump(temps, j,indent = 4)
-
+                    json.dump(temps, j, indent=4)
 
         if values['buttonmenu'] in tempkeys:
             print(temps)

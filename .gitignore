@@ -163,6 +163,7 @@ pyvenv*
 *.pickle
 *.pkl
 **/*.pkl
+./ScheduleTemps.json
 
 Test/
 Lib/
