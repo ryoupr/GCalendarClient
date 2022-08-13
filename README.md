@@ -19,7 +19,7 @@
 
 ## 頻繁に登録する予定をテンプレートとして登録できます。
 ![usetemplate](https://user-images.githubusercontent.com/55190661/184474412-da2d2223-bb74-4543-ae07-6c2ac9d3891c.png)
-![pushtemp](https://user-images.githubusercontent.com/55190661/184474456-024abb86-18a7-4691-823f-b4c8afd61492.png)
+![pushtemp](https://user-images.githubusercontent.com/55190661/184474456-024abb86-18a7-4691-823f-b4c8afd61492.png)  
 テンプレートは予定情報が入力された状態で左上のメニューからFile→テンプレートとして登録を選択することで登録できます。（次回起動時から選択可能です）
 
 ## 登録先カレンダーの変更
