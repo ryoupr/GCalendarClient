@@ -97,7 +97,7 @@ def main():
                 print(temps)
 
                 with open('./ScheduleTemps.json', 'w', encoding='utf-8') as j:
-                    json.dump(temps, j)
+                    json.dump(temps, j,indent = 4)
 
 
         if values['buttonmenu'] in tempkeys:
