@@ -17,6 +17,11 @@
 
 カレンダーから選択ボタンを押下することで、グラフィカルに予定を追加する日を指定することができます。
 
+## 頻繁に登録する予定をテンプレートとして登録できます。
+![usetemplate](https://user-images.githubusercontent.com/55190661/184474412-da2d2223-bb74-4543-ae07-6c2ac9d3891c.png)
+![pushtemp](https://user-images.githubusercontent.com/55190661/184474456-024abb86-18a7-4691-823f-b4c8afd61492.png)
+テンプレートは予定情報が入力された状態で左上のメニューからFile→テンプレートとして登録を選択することで登録できます。（次回起動時から選択可能です）
+
 ## 登録先カレンダーの変更
 ![image](https://user-images.githubusercontent.com/55190661/182026178-e9cba667-cd13-4947-871a-456f2f93efc1.png)
 
