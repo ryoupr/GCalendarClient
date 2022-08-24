@@ -29,7 +29,7 @@ def makewindow():
         [sg.MenubarCustom(
             [
                 ['&File', ['テンプレートとして登録', '&Exit']],
-                ['Edit', ['Theme', [theme_list], 'ThemePreview','Setting.ini']],
+                ['Edit', ['Theme', [theme_list], 'ThemePreview','Settings.iniを編集']],
                 ['Help', ['How To']]
             ]
         )],
