@@ -10,7 +10,6 @@ from exchangeformat import *
 import webbrowser
 import json
 import os
-import subprocess
 
 
 def main():
@@ -121,9 +120,10 @@ def main():
                 window['allDay'].update(False)
 
         if event == 'Setting.ini':
-            setting = r'./setting.ini'
-            subprocess.Popen(['start', setting], shell=True)
-
+            setting = r'settings.ini'
+            os.startfile(setting)
+            window.close()
+            window = makewindow()
 
     window.close()
 
