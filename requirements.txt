@@ -30,3 +30,5 @@ six==1.16.0
 toml==0.10.2
 uritemplate==4.1.1
 urllib3==1.26.9
+SpeechRecognition==3.8.1
+pyaudio==0.2.12
