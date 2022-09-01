@@ -4,7 +4,7 @@ from turtle import width
 import PySimpleGUI as sg
 from check_token import check_token_expiration
 from addschedules import add_schedules
-from windowlayout import makewindow
+from windowlayout import makewindow,makewindow_notoken
 from multipleinputcalendar import *
 from exchangeformat import *
 import webbrowser
@@ -49,7 +49,10 @@ def main():
     # GUIWindowを出力
     # window = sg.Window('GCalendarClient',
     #                    windowlayout.windowlayout, resizable=True)
-    window = makewindow()
+    if os.path.exists('./token.pickle'):
+        window = makewindow()
+    else:
+        window = makewindow_notoken()
     # イベント待機状態へ移行
     while True:
         event, values = window.read()
@@ -122,6 +125,9 @@ def main():
         if event == 'Settings.iniを編集':
             setting = r'settings.ini'
             os.startfile(setting)
+
+        if event == 'signin':
+            pass
 
     window.close()
 
