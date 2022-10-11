@@ -30,8 +30,8 @@ def makewindow():
             [
                 ['&File', ['テンプレートとして登録', '&Exit']],
                 ['Edit', ['Theme', [theme_list], 'ThemePreview',
-                          'Setting.iniを編集', 'テンプレートファイルを編集']],
-                ['Help', ['How To']]
+                          '設定ファイルを編集', 'テンプレートファイルを編集']],
+                ['Help', ['How To','GitHub']]
             ]
         )],
         [

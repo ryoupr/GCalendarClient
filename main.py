@@ -88,8 +88,11 @@ def main():
         if event == 'ThemePreview':
             sg.theme_previewer()
 
-        if event == 'How To':
+        if event == 'GitHub':
             webbrowser.open('https://github.com/ryoupr/GCalendarClient')
+
+        if event == 'How To':
+            webbrowser.open('http://gcc.ryou.jp')
 
         if event == 'テンプレートとして登録':
             # jsonファイルに今の予定内容を書き込み
@@ -122,9 +125,13 @@ def main():
             else:
                 window['allDay'].update(False)
 
-        if event == 'Setting.iniを編集':
+        if event == '設定ファイルを編集':
             setting = r'settings.ini'
             os.startfile(setting)
+
+        if event == 'テンプレートファイルを編集':
+            template = r'ScheduleTemps.json'
+            os.startfile(template)
 
         if event == 'signin':
             pass
