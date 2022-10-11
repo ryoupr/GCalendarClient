@@ -24,7 +24,7 @@ def makewindow():
     BUTTONWIDTH = 25
     BUTTONHAIGHT = 2
     DATETIMEBOX = 4
-    SUMPLADIS = 43
+    SUMPLADIS = 55
 
     # PySimpleGUIレイアウト設定
     windowlayout = [
