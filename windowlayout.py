@@ -29,7 +29,8 @@ def makewindow():
         [sg.MenubarCustom(
             [
                 ['&File', ['テンプレートとして登録', '&Exit']],
-                ['Edit', ['Theme', [theme_list], 'ThemePreview','Settings.iniを編集']],
+                ['Edit', ['Theme', [theme_list], 'ThemePreview',
+                          'Setting.iniを編集', 'テンプレートファイルを編集']],
                 ['Help', ['How To']]
             ]
         )],
@@ -167,6 +168,7 @@ def makewindow():
 
     return window
 
+
 def makewindow_notoken():
     import theme_list
     theme_list = theme_list.theme_list
@@ -193,7 +195,7 @@ def makewindow_notoken():
         [sg.MenubarCustom(
             [
                 ['&File', ['テンプレートとして登録', '&Exit']],
-                ['Edit', ['Theme', [theme_list], 'ThemePreview','Settings.iniを編集']],
+                ['Edit', ['Theme', [theme_list], 'ThemePreview', 'Settings.iniを編集']],
                 ['Help', ['How To']]
             ]
         )],
@@ -322,7 +324,7 @@ def makewindow_notoken():
             sg.Button(
                 '取消',
                 key='Cancell',
-                size=(24,2)
+                size=(24, 2)
             )
         ]
     ]

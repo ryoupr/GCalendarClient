@@ -4,7 +4,7 @@ from turtle import width
 import PySimpleGUI as sg
 from check_token import check_token_expiration
 from addschedules import add_schedules
-from windowlayout import makewindow,makewindow_notoken
+from windowlayout import makewindow, makewindow_notoken
 from multipleinputcalendar import *
 from exchangeformat import *
 import webbrowser
@@ -122,7 +122,7 @@ def main():
             else:
                 window['allDay'].update(False)
 
-        if event == 'Settings.iniを編集':
+        if event == 'Setting.iniを編集':
             setting = r'settings.ini'
             os.startfile(setting)
 
