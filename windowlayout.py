@@ -45,6 +45,8 @@ def makewindow():
                 ],
                 key='buttonmenu'
             ),
+            sg.Button(key='voiceInput',
+                      image_filename='./img/mikeIcon.png'),
 
         ],
         [

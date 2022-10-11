@@ -133,7 +133,9 @@ def main():
             template = r'ScheduleTemps.json'
             os.startfile(template)
 
-        if event == 'signin':
+        if event == 'voiceInput':
+            #音声入力から情報を抽出してGCALへ登録する。
+            #VoiceInputから文字列へ返還
             pass
 
     window.close()
