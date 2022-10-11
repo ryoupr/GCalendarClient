@@ -21,9 +21,11 @@ def makewindow():
     sg.theme(config['USER SETTING']['theme'])
 
     INPUTBOX = 9
-    BUTTONWIDTH = 50
+    BUTTONWIDTH = 25
     BUTTONHAIGHT = 2
     DATETIMEBOX = 4
+    SUMPLADIS = 43
+
     # PySimpleGUIレイアウト設定
     windowlayout = [
         [sg.MenubarCustom(
@@ -31,7 +33,7 @@ def makewindow():
                 ['&File', ['テンプレートとして登録', '&Exit']],
                 ['Edit', ['Theme', [theme_list], 'ThemePreview',
                           '設定ファイルを編集', 'テンプレートファイルを編集']],
-                ['Help', ['How To','GitHub']]
+                ['Help', ['How To', 'GitHub']]
             ]
         )],
         [
@@ -47,7 +49,7 @@ def makewindow():
         ],
         [
             sg.Text('概要', size=(INPUTBOX)),
-            sg.InputText('', size=(98), key='summary')],
+            sg.InputText('', size=(SUMPLADIS), key='summary')],
         [
             sg.Text(
                 '場所',
@@ -55,7 +57,7 @@ def makewindow():
             ),
             sg.InputText(
                 '',
-                size=(98),
+                size=(SUMPLADIS),
                 key='location'
             )
         ],
@@ -66,7 +68,7 @@ def makewindow():
             ),
             sg.InputText(
                 '',
-                size=(98),
+                size=(SUMPLADIS),
                 key=('description')
             )
         ],
@@ -163,8 +165,9 @@ def makewindow():
             )
         ]
     ]
-
-    window = sg.Window('GCalendarClient', windowlayout, resizable=True)
+    # トークンないバージョンもあるので注意
+    window = sg.Window('GCalendarClient', windowlayout,
+                       resizable=True, size=(450, 350))
 
     return window
 
@@ -329,7 +332,9 @@ def makewindow_notoken():
         ]
     ]
 
-    window = sg.Window('GCalendarClient', windowlayout, resizable=True)
+    # トークンあるバージョンの行もあるので注意
+    window = sg.Window('GCalendarClient', windowlayout,
+                       resizable=True, size=(450, 350))
 
     return window
 
