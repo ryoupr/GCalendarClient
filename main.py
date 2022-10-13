@@ -118,7 +118,7 @@ def main():
             webbrowser.open('https://github.com/ryoupr/GCalendarClient')
 
         if event == 'How To':
-            webbrowser.open('http://gcc.ryou.jp')
+            webbrowser.open('http://gcc.ryou.jp/howto.html')
 
         if event == 'テンプレートとして登録':
             # jsonファイルに今の予定内容を書き込み
