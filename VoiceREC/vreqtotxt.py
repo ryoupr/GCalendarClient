@@ -6,3 +6,4 @@ with sr.Microphone() as input:
     audio = r.listen(input)
 
 text = r.recognize_google(audio, language='ja-JP')
+print(text)

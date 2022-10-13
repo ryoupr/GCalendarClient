@@ -17,13 +17,38 @@ def main():
     # tiken.pickleが作成から一週間経過したら削除
     check_token_expiration()
 
+    # テーマ一覧を取得
     theme_lineup = sg.theme_list()
     theme_list = theme_list.theme_list
 
-    # If modifying these scopes, delete the file token.pickle.
     # 設定ファイルの読み込み
     config = sg.UserSettings(
         './settings.ini', use_config_file=True, convert_bools_and_none=True)
+
+    # かれんだーIDがテスト用であればID変更を提案。
+    if config['CALENDAR']['calendarid'] == 'ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com':
+        print('カレンダーIDがデフォルトのままです')
+        layout = [[sg.Text('カレンダーIDがデフォルトのままなので変更してください')],
+                  [sg.Text('カレンダーIDの取得方法はこちら', enable_events=True, key='How to get calendarID', font=(
+                      '', 8, 'underline'), text_color='#0067C0')],
+                  [sg.Text('カレンダーIDを入力')],
+                  [sg.InputText()],
+                  [sg.Button('登録', key=('registration')), sg.Button('無視して続行', button_color=('#FF0000'), key=('ignore'))]]
+        window = sg.Window('CalendarIDを変更してください', layout,
+                           resizable=True, size=(450, 160))
+        # 設定を書き込み
+        while True:
+            event, values = window.read()
+            if event == 'registration':
+                print(values)
+                config['CALENDAR']['calendarid'] = values[0]
+                break
+
+            if event == sg.WIN_CLOSED or event == 'ignore':
+                print('無視して続行します')
+                break
+
+            window.close()
 
     # SCOPESを定義
     SCOPES = []
@@ -42,6 +67,7 @@ def main():
     with open(path, 'r', encoding='utf-8') as j:
         temps = json.load(j, strict=False)
     tempkeys = []
+
     for i in temps['scheduletemps'].keys():
         tempkeys.append(i)
     print(f'Registrated temps = {tempkeys}')
@@ -134,9 +160,14 @@ def main():
             os.startfile(template)
 
         if event == 'voiceInput':
-            #音声入力から情報を抽出してGCALへ登録する。
-            #VoiceInputから文字列へ返還
+            # 音声入力から情報を抽出してGCALへ登録する。
+            # VoiceInputから文字列へ返還
             pass
+        
+        #todo サイト作成とリンクを
+        if event == 'How to get calendarID':
+            url = ''
+            webbrowser.open(url)
 
     window.close()
 
