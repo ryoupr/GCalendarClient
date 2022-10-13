@@ -21,16 +21,19 @@ def makewindow():
     sg.theme(config['USER SETTING']['theme'])
 
     INPUTBOX = 9
-    BUTTONWIDTH = 50
+    BUTTONWIDTH = 25
     BUTTONHAIGHT = 2
     DATETIMEBOX = 4
+    SUMPLADIS = 55
+
     # PySimpleGUIレイアウト設定
     windowlayout = [
         [sg.MenubarCustom(
             [
                 ['&File', ['テンプレートとして登録', '&Exit']],
-                ['Edit', ['Theme', [theme_list], 'ThemePreview','Settings.iniを編集']],
-                ['Help', ['How To']]
+                ['Edit', ['Theme', [theme_list], 'ThemePreview',
+                          '設定ファイルを編集', 'テンプレートファイルを編集']],
+                ['Help', ['How To', 'GitHub']]
             ]
         )],
         [
@@ -42,11 +45,13 @@ def makewindow():
                 ],
                 key='buttonmenu'
             ),
+            sg.Button(key='voiceInput',
+                      image_filename='./img/mikeIcon.png'),
 
         ],
         [
             sg.Text('概要', size=(INPUTBOX)),
-            sg.InputText('', size=(98), key='summary')],
+            sg.InputText('', size=(SUMPLADIS), key='summary')],
         [
             sg.Text(
                 '場所',
@@ -54,7 +59,7 @@ def makewindow():
             ),
             sg.InputText(
                 '',
-                size=(98),
+                size=(SUMPLADIS),
                 key='location'
             )
         ],
@@ -65,7 +70,7 @@ def makewindow():
             ),
             sg.InputText(
                 '',
-                size=(98),
+                size=(SUMPLADIS),
                 key=('description')
             )
         ],
@@ -162,10 +167,12 @@ def makewindow():
             )
         ]
     ]
-
-    window = sg.Window('GCalendarClient', windowlayout, resizable=True)
+    # トークンないバージョンもあるので注意
+    window = sg.Window('GCalendarClient', windowlayout,
+                       resizable=True, size=(450, 350))
 
     return window
+
 
 def makewindow_notoken():
     import theme_list
@@ -193,7 +200,7 @@ def makewindow_notoken():
         [sg.MenubarCustom(
             [
                 ['&File', ['テンプレートとして登録', '&Exit']],
-                ['Edit', ['Theme', [theme_list], 'ThemePreview','Settings.iniを編集']],
+                ['Edit', ['Theme', [theme_list], 'ThemePreview', 'Settings.iniを編集']],
                 ['Help', ['How To']]
             ]
         )],
@@ -322,12 +329,14 @@ def makewindow_notoken():
             sg.Button(
                 '取消',
                 key='Cancell',
-                size=(24,2)
+                size=(24, 2)
             )
         ]
     ]
 
-    window = sg.Window('GCalendarClient', windowlayout, resizable=True)
+    # トークンあるバージョンの行もあるので注意
+    window = sg.Window('GCalendarClient', windowlayout,
+                       resizable=True, size=(450, 350))
 
     return window
 
