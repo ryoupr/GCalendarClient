@@ -29,7 +29,7 @@ def main():
     if config['CALENDAR']['calendarid'] == 'ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com':
         print('カレンダーIDがデフォルトのままです')
         layout = [[sg.Text('カレンダーIDがデフォルトのままなので変更してください')],
-                  [sg.Text('カレンダーIDの取得方法はこちら', enable_events=True, key='How to get calendarID', font=(
+                  [sg.Text('カレンダーIDの取得方法はこちら', enable_events=True, key='How To', font=(
                       '', 8, 'underline'), text_color='#0067C0')],
                   [sg.Text('カレンダーIDを入力')],
                   [sg.InputText()],
@@ -41,6 +41,8 @@ def main():
             event, values = window.read()
             if event == 'registration':
                 print(values)
+                if values[0] == '':
+                    break
                 config['CALENDAR']['calendarid'] = values[0]
                 break
 
@@ -48,7 +50,10 @@ def main():
                 print('無視して続行します')
                 break
 
-            window.close()
+            if event == 'How To':
+                webbrowser.open('http://gcc.ryou.jp/howto.html')
+
+        window.close()
 
     # SCOPESを定義
     SCOPES = []
@@ -163,11 +168,6 @@ def main():
             # 音声入力から情報を抽出してGCALへ登録する。
             # VoiceInputから文字列へ返還
             pass
-        
-        #todo サイト作成とリンクを
-        if event == 'How to get calendarID':
-            url = ''
-            webbrowser.open(url)
 
     window.close()
 
