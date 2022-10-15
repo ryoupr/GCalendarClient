@@ -7,6 +7,7 @@ from addschedules import add_schedules
 from windowlayout import makewindow, makewindow_notoken
 from multipleinputcalendar import *
 from exchangeformat import *
+from voicetotext import voicetotext
 import webbrowser
 import json
 import os
@@ -28,17 +29,17 @@ def main():
     # かれんだーIDがテスト用であればID変更を提案。
     if config['CALENDAR']['calendarid'] == 'ke37d1obkoa9ihbjghnc52ui54@group.calendar.google.com':
         print('カレンダーIDがデフォルトのままです')
-        layout = [[sg.Text('カレンダーIDがデフォルトのままなので変更してください')],
+        layout = [[sg.Text('カレンダーIDがデフォルトのままなので変更してください', background_color='#FFFFFF', text_color='#000000')],
                   [sg.Text('カレンダーIDの取得方法はこちら', enable_events=True, key='How To', font=(
-                      '', 8, 'underline'), text_color='#0067C0')],
-                  [sg.Text('カレンダーIDを入力')],
+                      '', 8, 'underline'), text_color='#0067C0', background_color='#FFFFFF')],
+                  [sg.Text('カレンダーIDを入力', background_color='#FFFFFF',text_color='#000000')],
                   [sg.InputText()],
                   [sg.Button('登録', key=('registration')), sg.Button('無視して続行', button_color=('#FF0000'), key=('ignore'))]]
-        window = sg.Window('CalendarIDを変更してください', layout,
+        changecalidwindow = sg.Window('CalendarIDを変更してください', layout, background_color='#FFFFFF',
                            resizable=True, size=(450, 160))
         # 設定を書き込み
         while True:
-            event, values = window.read()
+            event, values = changecalidwindow.read()
             if event == 'registration':
                 print(values)
                 if values[0] == '':
@@ -53,7 +54,7 @@ def main():
             if event == 'How To':
                 webbrowser.open('http://gcc.ryou.jp/howto.html')
 
-        window.close()
+        changecalidwindow.close()
 
     # SCOPESを定義
     SCOPES = []
@@ -167,6 +168,9 @@ def main():
         if event == 'voiceInput':
             # 音声入力から情報を抽出してGCALへ登録する。
             # VoiceInputから文字列へ返還
+            voicereqwindow = sg.Window('CalendarIDを変更してください', [[sg.Text('test')]],
+                               resizable=True, size=(450, 160))
+
             pass
 
     window.close()
