@@ -32,11 +32,12 @@ def main():
         layout = [[sg.Text('カレンダーIDがデフォルトのままなので変更してください', background_color='#FFFFFF', text_color='#000000')],
                   [sg.Text('カレンダーIDの取得方法はこちら', enable_events=True, key='How To', font=(
                       '', 8, 'underline'), text_color='#0067C0', background_color='#FFFFFF')],
-                  [sg.Text('カレンダーIDを入力', background_color='#FFFFFF',text_color='#000000')],
+                  [sg.Text('カレンダーIDを入力', background_color='#FFFFFF',
+                           text_color='#000000')],
                   [sg.InputText()],
                   [sg.Button('登録', key=('registration')), sg.Button('無視して続行', button_color=('#FF0000'), key=('ignore'))]]
         changecalidwindow = sg.Window('CalendarIDを変更してください', layout, background_color='#FFFFFF',
-                           resizable=True, size=(450, 160))
+                                      resizable=True, size=(450, 160))
         # 設定を書き込み
         while True:
             event, values = changecalidwindow.read()
@@ -168,10 +169,8 @@ def main():
         if event == 'voiceInput':
             # 音声入力から情報を抽出してGCALへ登録する。
             # VoiceInputから文字列へ返還
-            voicereqwindow = sg.Window('CalendarIDを変更してください', [[sg.Text('test')]],
-                               resizable=True, size=(450, 160))
-
-            pass
+            reqtext = voicetotext()
+            print(reqtext)
 
     window.close()
 
