@@ -214,6 +214,8 @@ def makewindow_notoken():
                 ],
                 key='buttonmenu'
             ),
+            sg.Button(key='voiceInput',
+                      image_filename='./img/mikeIcon.png'),
 
         ],
         [
