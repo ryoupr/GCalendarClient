@@ -30,7 +30,7 @@ def makewindow():
     windowlayout = [
         [sg.MenubarCustom(
             [
-                ['&File', ['テンプレートとして登録', '&Exit']],
+                ['File', ['テンプレートとして登録', '&Exit']],
                 ['Edit', ['Theme', [theme_list], 'ThemePreview',
                           '設定ファイルを編集', 'テンプレートファイルを編集']],
                 ['Help', ['How To', 'GitHub']]
@@ -199,9 +199,10 @@ def makewindow_notoken():
     windowlayout = [
         [sg.MenubarCustom(
             [
-                ['&File', ['テンプレートとして登録', '&Exit']],
-                ['Edit', ['Theme', [theme_list], 'ThemePreview', 'Settings.iniを編集']],
-                ['Help', ['How To']]
+                ['File', ['テンプレートとして登録', '&Exit']],
+                ['Edit', ['Theme', [theme_list], 'ThemePreview',
+                          '設定ファイルを編集', 'テンプレートファイルを編集']],
+                ['Help', ['How To', 'GitHub']]
             ]
         )],
         [
