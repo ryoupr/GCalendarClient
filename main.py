@@ -8,6 +8,8 @@ from windowlayout import makewindow, makewindow_notoken
 from multipleinputcalendar import *
 from exchangeformat import *
 from voicetotext import voicetotext
+from does_a_exist_in import does_a_exist_in
+from take_month_and_date_from_text import take_month_and_date_from_text
 import webbrowser
 import json
 import os
@@ -170,7 +172,46 @@ def main():
             # 音声入力から情報を抽出してGCALへ登録する。
             # VoiceInputから文字列へ返還
             reqtext = voicetotext()
-            print(reqtext)
+            # 音声認識失敗時にエスケープ
+            if reqtext == 'Error':
+                window['result'].update('音声の認識に失敗しました')
+            else:
+                print('入力された音声の文字お越し：' + reqtext)
+                # テンプレートのサマリーリストを作成してDoes a exist in？に文字起こししたテキストと一緒に渡す。
+                print(tempkeys)
+                # exit_in [0]にはTrueかFalse[1]発見したテンプレートのSummaryが入っている
+                exist_in = does_a_exist_in(reqtext, tempkeys)
+                print(exist_in)
+                if exist_in[0]:
+                    print('一致するテンプレート情報を見つけました')
+                    temp = temps['scheduletemps'][exist_in[1]]
+                    window['summary'].update(temp['summary'])
+                    window['location'].update(temp['location'])
+                    window['description'].update(temp['description'])
+                    window['startHour'].update(temp['starthour'])
+                    window['startMinute'].update(temp['startminute'])
+                    window['endHour'].update(temp['endhour'])
+                    window['endMinute'].update(temp['endminute'])
+                    if temp['allday'] == 'True':
+                        window['allDay'].update(True)
+                    else:
+                        window['allDay'].update(False)
+
+                    #月と日付情報の抽出（リターンは辞書型　{'month': '11', 'date': ['1', '3']}で帰ってきます）
+                    eventdate = take_month_and_date_from_text(reqtext)
+                    print(eventdate)
+                    window['startMonth'].update(eventdate['month'])
+                    window['endMonth'].update(eventdate['month'])
+                    date = ''
+                    for i in eventdate['date']:
+                        date +=i+','
+                    date = date[:-1]
+                    print(date)
+                    window['startDate'].update(date)
+                    window['endDate'].update(date)
+                else:
+                    print('音声認識失敗')
+                    window['result'].update('音声の認識に失敗しました')
 
     window.close()
 
