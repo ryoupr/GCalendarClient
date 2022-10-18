@@ -49,11 +49,13 @@ def add_schedules(values):
         print(f'endmonths  = {endmonths} ')
         print(f'startdates = {startdates}')
         print(f'enddates  = {enddates} ')
+        
+        
         # 開始日・終了日の要素数が違ったら終了日を開始日と同一とする
         if len(startdates) != len(enddates):
             enddates = startdates
         # forで回しながら予定を追加
-        for i in range(0, len(startdates)):
+        for i in range(0, len(startdates)-1):
             values['startYear'] = startyears[i]
             values['endYear'] = endyears[i]
             values['startMonth'] = startmonths[i]

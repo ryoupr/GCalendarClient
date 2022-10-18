@@ -209,6 +209,9 @@ def main():
                     print(date)
                     window['startDate'].update(date)
                     window['endDate'].update(date)
+                    #年情報の更新
+                    window['startYear'].update(eventdate['year'])
+                    window['endYear'].update(eventdate['year'])
                 else:
                     print('音声認識失敗')
                     window['result'].update('音声の認識に失敗しました')

@@ -2,11 +2,14 @@ def take_month_and_date_from_text(text):
     from datetime import datetime
     material = text
 
+    # リターンする情報用の辞書（ここにイベントの情報を投入していく）
     eventdata = {
+        'year': '',
         'month': '',
         'date': ''
     }
     one_to_nine = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+
     # 月情報の抽出
     for i in text:
         if i == '月' and text[text.index(i)-1] in one_to_nine:
@@ -18,7 +21,6 @@ def take_month_and_date_from_text(text):
                 month = text[month_index-1]
             print(month[0])
             if month[0] not in one_to_nine:
-                print(76457657)
                 month = month[1:]
             print(month)
             eventdata['month'] = str(month)
@@ -54,7 +56,23 @@ def take_month_and_date_from_text(text):
     if eventdata['month'] == '' and '来月' in material:
         eventdata['month'] = str((datetime.today().month+1) % 12)
 
+    # monthを日付の要素数と同一になるよう複製
+    addtemp = ','+eventdata['month']
+    addcount = len(eventdata['date'])-1
+    for i in range(0, addcount):
+        eventdata['month'] += addtemp
+
+    # yearを日付の要素数と同じになるよう生成（今年）
+    thisyear = str(datetime.today().year)
+    addtemp = ','+thisyear
+    year = thisyear
+    for i in range(0,len(eventdata['date'])-1):
+        year += addtemp
+    
+    eventdata['year'] = year
+    
     return eventdata
+
 
 
 if __name__ == '__main__':
