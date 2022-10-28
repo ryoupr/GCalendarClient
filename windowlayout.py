@@ -25,7 +25,7 @@ def makewindow():
     BUTTONHAIGHT = 2
     DATETIMEBOX = 4
     SUMPLADIS = 55
-
+    
     # PySimpleGUIレイアウト設定
     windowlayout = [
         [sg.MenubarCustom(

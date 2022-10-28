@@ -18,6 +18,7 @@ def verify_year(y):
             return False
         return True
     except:
+        print('Error in verify_format verify_year func')
         return False
 
 
@@ -32,6 +33,8 @@ def verify_month(y, m):
             return False
         return True
     except:
+        print('Error in verify_format verify_month func')
+
         return False
 
 
@@ -58,6 +61,8 @@ def verify_start_date(y, m, d):
                 return False
         return True
     except:
+        print('Error in verify_format verify_start_date func')
+
         return False
 
 
@@ -69,8 +74,11 @@ def verify_end_year(sy, ey):
                 return False
             return True
         else:
+
             return False
     except:
+        print('Error in verify_format verify_end_year func')
+
         return False
 
 
@@ -104,6 +112,8 @@ def verify_before_time(sy, sm, sd, sh, smi):
         else:
             return True
     except:
+        print('Error in verify_format verify_before_time func')
+
         return False
 
 
@@ -115,6 +125,8 @@ def verify_behind_time(ey, em, ed, eh, emi):
         else:
             return True
     except:
+        print('Error in verify_format verify_behind_time func')
+
         return False
 
 

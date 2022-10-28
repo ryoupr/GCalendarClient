@@ -6,13 +6,11 @@ from http.client import OK
 from xmlrpc.client import DateTime
 import PySimpleGUI as sg
 import os
-from tabnanny import check
 from tracemalloc import start
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import pickle
-import datetime
 from generate_datetime import *
 from datetime_master import *
 from verify_format import verify_all_day_event
@@ -21,6 +19,7 @@ import PySimpleGUI as sg
 
 def add_schedules(values):
     #　終日イベントかどうか検証
+    # 終日イベント追加
     if values['allDay'] or values['startHour'] == '':
         # 終日イベント
         calendarEvent = {
@@ -43,26 +42,31 @@ def add_schedules(values):
         endmonths = values['endMonth'].split(',')
         startdates = values['startDate'].split(',')
         enddates = values['endDate'].split(',')
+        print('--------------------送信する各要素----------------------------')
         print(f'startyears = {startyears}')
         print(f'endyears  = {endyears} ')
         print(f'startmonths = {startmonths}')
         print(f'endmonths  = {endmonths} ')
         print(f'startdates = {startdates}')
         print(f'enddates  = {enddates} ')
-        
-        
+        print('------------------------------------------------------------')
+
         # 開始日・終了日の要素数が違ったら終了日を開始日と同一とする
         if len(startdates) != len(enddates):
             enddates = startdates
-        # forで回しながら予定を追加
-        for i in range(0, len(startdates)-1):
-            values['startYear'] = startyears[i]
-            values['endYear'] = endyears[i]
-            values['startMonth'] = startmonths[i]
-            values['endMonth'] = endmonths[i]
-            values['startDate'] = startdates[i]
-            values['endDate'] = enddates[i]
-            # 書式があっているか検証
+            
+        print('追加する予定数 = '+str(len(startdates)))
+        if len(startdates) == 1:
+            print('要素数１のイベント用追加処理')
+            values['startYear'] = startyears[0]
+            values['endYear'] = endyears[0]
+            values['startMonth'] = startmonths[0]
+            values['endMonth'] = endmonths[0]
+            values['startDate'] = startdates[0]
+            values['endDate'] = enddates[0]
+            print(f'Values = {values}')
+
+                # 書式があっているか検証
             if verify_all_day_event(values):
                 calendarEvent['summary'] = values['summary']
                 calendarEvent['location'] = values['location']
@@ -72,13 +76,45 @@ def add_schedules(values):
                 calendarEvent['end']['date'] = generate_date(
                     values['endYear'], values['endMonth'], values['endDate']
                 )
-                print(f'''
-calendarEvent
-{calendarEvent}
-''')
+                print(f'calendarEvent={calendarEvent}')
                 registration(calendarEvent)
+            else:
+                print('Syntax error(values) addschedules.py')
+
+
+        else:
+            print('追加する予定数 = '+str(len(startdates)))
+            for i in range(0, len(startdates)):
+                print(f'i = {i}')
+                print('join for ')
+                values['startYear'] = startyears[i]
+                values['endYear'] = endyears[i]
+                values['startMonth'] = startmonths[i]
+                values['endMonth'] = endmonths[i]
+                values['startDate'] = startdates[i]
+                values['endDate'] = enddates[i]
+
+                print(f'Values = {values}')
+
+                # 書式があっているか検証
+                if verify_all_day_event(values):
+                    calendarEvent['summary'] = values['summary']
+                    calendarEvent['location'] = values['location']
+                    calendarEvent['description'] = values['description']
+                    calendarEvent['start']['date'] = generate_date(
+                        values['startYear'], values['startMonth'], values['startDate'])
+                    calendarEvent['end']['date'] = generate_date(
+                        values['endYear'], values['endMonth'], values['endDate']
+                    )
+                    print(f'calendarEvent={calendarEvent}')
+                    registration(calendarEvent)
+                else:
+                        print('Syntax error(values) addschedules.py L82')
+# -----------終日イベント追加終了------------------------------------------------------------------------
+
     else:
         # 非終日イベント
+        # 以下は日終日イベント追加処理
         print('非終日イベント')
         calendarEvent = {
             'summary': '',

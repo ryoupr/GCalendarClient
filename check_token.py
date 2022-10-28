@@ -23,6 +23,7 @@ def check_token_expiration():
                 os.remove('./token.pickle')
                 print('削除完了')
     except:
+        print('Error in check token')
         return
 
 

@@ -21,6 +21,7 @@ def voicetotext():
         voicereqwindow.close()
         return text
     except:
+        print('Err in voicetotext L24')
         voicereqwindow.close()
         return False,'Error'
 
